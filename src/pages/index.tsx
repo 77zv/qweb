@@ -9,6 +9,7 @@ import Button from "../components/button";
 import { FaGoogle } from "react-icons/fa";
 
 const Home: NextPage = () => {
+  const {data: test} = api.event.test.useQuery();
 
 
   return (
