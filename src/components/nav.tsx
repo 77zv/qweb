@@ -222,8 +222,8 @@ const NavBar = () => {
           <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
             {sessionData ? (
               <button
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-                onClick={() => void signOut()}>
+                className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-blue-900 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-900"
+                onClick={() => void signOut({redirect : false})}>
                 Sign Out
               </button>
             ) : (
