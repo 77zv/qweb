@@ -1,5 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -8,13 +10,15 @@ import {
   ChartBarIcon,
   CursorArrowRaysIcon,
   LifebuoyIcon,
-  PhoneIcon,
-  PlayIcon,
   ShieldCheckIcon,
   Squares2X2Icon,
   XMarkIcon
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+
+import Button from "../components/button";
+
+import Link from "next/link";
 
 const solutions = [
   {
@@ -63,25 +67,36 @@ const resources = [
   }
 ];
 
+type ButtonFunction = typeof signIn | typeof signOut;
+type ButtonContent = "Sign in" | "Sign out";
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
+
+  return (
+    <NavBar />
+  );
+}
+
+const NavBar = () => {
+  const { data: sessionData } = useSession();
   return (
     <Popover className="relative bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div
           className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <a href="#">
+            <Link href="#">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto sm:h-10"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="-my-2 -mr-2 md:hidden">
             <Popover.Button
@@ -124,7 +139,7 @@ export default function Example() {
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {solutions.map((item) => (
-                            <a
+                            <Link
                               key={item.name}
                               href={item.href}
                               className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
@@ -134,7 +149,7 @@ export default function Example() {
                                 <p className="text-base font-medium text-gray-900">{item.name}</p>
                                 <p className="mt-1 text-sm text-gray-500">{item.description}</p>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
@@ -144,12 +159,12 @@ export default function Example() {
               )}
             </Popover>
 
-            <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
               Events
-            </a>
-            <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            </Link>
+            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
               About Us
-            </a>
+            </Link>
 
             <Popover className="relative">
               {({ open }) => (
@@ -184,7 +199,7 @@ export default function Example() {
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {resources.map((item) => (
-                            <a
+                            <Link
                               key={item.name}
                               href={item.href}
                               className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
@@ -194,7 +209,7 @@ export default function Example() {
                                 <p className="text-base font-medium text-gray-900">{item.name}</p>
                                 <p className="mt-1 text-sm text-gray-500">{item.description}</p>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
@@ -205,15 +220,26 @@ export default function Example() {
             </Popover>
           </Popover.Group>
           <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-            <a href="#" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-              Sign in
-            </a>
-            <a
-              href="#"
-              className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-gradient-to-b from-[#22287A] to-[#22287A] px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-            >
-              Sign up
-            </a>
+            {sessionData ? (
+              <button
+                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                onClick={() => void signOut()}>
+                Sign Out
+              </button>
+            ) : (
+              <>
+                <button
+                  className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  onClick={() => void signIn("google")}>
+                  Sign in
+                </button>
+                <button
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-blue-900 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-900"
+                  onClick={() => void signIn("google")}>
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -249,49 +275,29 @@ export default function Example() {
               <div className="mt-6">
                 <nav className="grid gap-y-8">
                   {solutions.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
                     >
                       <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600" aria-hidden="true" />
                       <span className="ml-3 text-base font-medium text-gray-900">{item.name}</span>
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
             </div>
             <div className="space-y-6 py-6 px-5">
               <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                  Pricing
-                </a>
-                <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                  Docs
-                </a>
                 {resources.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="text-base font-medium text-gray-900 hover:text-gray-700"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                >
-                  Sign up
-                </a>
-                <p className="mt-6 text-center text-base font-medium text-gray-500">
-                  Existing customer?{" "}
-                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                    Sign in
-                  </a>
-                </p>
               </div>
             </div>
           </div>
@@ -299,4 +305,4 @@ export default function Example() {
       </Transition>
     </Popover>
   );
-}
+};

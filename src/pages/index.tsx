@@ -9,8 +9,6 @@ import Button from "../components/button";
 import { FaGoogle } from "react-icons/fa";
 
 const Home: NextPage = () => {
-  const {data: test} = api.event.test.useQuery();
-
 
   return (
     <>
@@ -21,7 +19,7 @@ const Home: NextPage = () => {
       </Head>
       <Layout>
         <main
-          className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#111827] to-[#22287A]">
+          className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1e3a8a] to-[#312e81]">
           <HomeContents/>
         </main>
       </Layout>

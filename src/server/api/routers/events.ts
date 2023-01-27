@@ -26,8 +26,4 @@ export const eventRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  test : protectedProcedure.query( ({ ctx }) => {
-    console.log(ctx.session)
-    return "test"
-  })
 });
