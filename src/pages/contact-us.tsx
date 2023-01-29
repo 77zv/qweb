@@ -6,6 +6,7 @@ export default function Example() {
     return (
         <Layout>
             <div className="relative bg-white">
+
                 <div className="absolute inset-0">
                     <div className="absolute inset-y-0 left-0 w-1/2 bg-gray-50"/>
                 </div>
@@ -54,7 +55,7 @@ export default function Example() {
                                         <span className="ml-3">+1 (555) 555-5555</span>
                                     </dd>
                                 </div>
-                                <div className="mt-3">
+                                <div className="mt-6">
                                     <dt className="sr-only">Email</dt>
                                     <dd className="flex">
                                         <BsEnvelope className="h-6 w-6 flex-shrink-0 text-gray-400"

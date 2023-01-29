@@ -79,6 +79,8 @@ export default function Example() {
   );
 }
 
+
+
 const NavBar = () => {
   const { data: sessionData } = useSession();
   return (
@@ -90,8 +92,8 @@ const NavBar = () => {
             <Link href="/">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-8 w-auto sm:h-10"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                className="h-1 w-auto sm:h-10"
+                src="https://cdn.discordapp.com/attachments/1015736391004606510/1069146447834005514/My_project-1_12.png"
                 alt=""
               />
             </Link>
