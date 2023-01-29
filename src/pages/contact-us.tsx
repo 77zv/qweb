@@ -45,7 +45,6 @@ export default function Example() {
                                             Queen's Business Brigades
                                         </a>
                                     </dd>
-                                    
                                 </div>
                                 <div className="mt-6">
                                     <dt className="sr-only">Phone number</dt>
