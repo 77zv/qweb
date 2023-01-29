@@ -56,7 +56,7 @@ const adminResources = [
 
 const JudgeResources = [
   {
-    name: "contact-us",
+    name: "Contact-Us",
     description: "Having an issue? contact our support team.",
     href: "contact-us",
     icon: LifebuoyIcon
