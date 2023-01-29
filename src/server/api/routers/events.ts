@@ -5,7 +5,13 @@ import { createTRPCRouter, publicProcedure, protectedProcedure, adminProcedure }
 export const eventRouter = createTRPCRouter({
   getEvent: publicProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.event.findMany();
+      return await ctx.prisma.event.findFirst(
+        {
+          select: {
+            id: true,
+          }
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -23,6 +29,24 @@ export const eventRouter = createTRPCRouter({
           where: {
             id: id
           },
+          data: {
+            title: title,
+            description: description
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  createEvent: adminProcedure.input(
+    z.object({
+      title: z.string(),
+      description: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { title, description } = input;
+      try {
+        return await ctx.prisma.event.create({
           data: {
             title: title,
             description: description
