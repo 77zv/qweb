@@ -79,8 +79,6 @@ export default function Example() {
   );
 }
 
-
-
 const NavBar = () => {
   const { data: sessionData } = useSession();
   return (
@@ -153,7 +151,6 @@ const NavBar = () => {
                               </Link>
                             )) : (
                               sessionData?.user?.role === "judge" ? JudgeResources.map((item) => (
-                                resources.map((item) => (
                                   <Link
                                     key={item.name}
                                     href={item.href}
@@ -165,7 +162,7 @@ const NavBar = () => {
                                       <p className="mt-1 text-sm text-gray-500">{item.description}</p>
                                     </div>
                                   </Link>
-                                )))) : (
+                                )) : (
                                 resources.map((item) => (
                                   <Link
                                     key={item.name}

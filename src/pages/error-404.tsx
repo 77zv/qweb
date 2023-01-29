@@ -17,7 +17,7 @@ export default function Example() {
                 <div>
                     <main>
                         <div className="flex flex-shrink-0 justify-center">
-                            <Link href="#" className="inline-flex">
+                            <Link href="/" className="inline-flex">
                                 <span className="sr-only">Your Company</span>
                                 <img
                                     className="h-40 w-auto"
