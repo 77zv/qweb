@@ -92,7 +92,7 @@ const AdminPanel: NextPage = () => {
                         </label>
                         <p className="pl-1">or drag and drop</p>
                       </div>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                      <p className="text-xs text-gray-500">PDF</p>
                     </div>
                   </div>
                 </div>
@@ -113,7 +113,6 @@ function classNames(...classes: (string | boolean)[]) {
 
 const Users: React.FC = () => {
   const { data: users } = api.users.getUsers.useQuery();
-  const [person, setPerson] = useState<Person[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<string>("");
 
   return (
@@ -129,7 +128,7 @@ const Users: React.FC = () => {
           <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
         </Combobox.Button>
 
-        {users != undefined && person.length > 0 && (
+        {users != undefined && users.length > 0 && (
           <Combobox.Options
             className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {users.map((user) => (
