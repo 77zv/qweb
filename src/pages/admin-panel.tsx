@@ -142,12 +142,7 @@ function classNames(...classes: (string | boolean)[]) {
 const Users: React.FC = () => {
     const { data: users } = api.users.getUsers.useQuery();
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
-    const [persons, setPersons] = useState<Person[]>([{
-      "id": "1",
-      "name": "John Doe",
-      "email": "Jane@gmail.com",
-      "role": "Judge"
-    }]);
+    const [persons, setPersons] = useState<Person[]>([]);
 
     return (
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
