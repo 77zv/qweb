@@ -2,6 +2,7 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 import Layout from "../components/layout";
 
+//only change dropbox and not event box
 
 export default function Example() {
     return (
