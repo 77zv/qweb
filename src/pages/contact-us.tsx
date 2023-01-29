@@ -1,4 +1,4 @@
-import {EnvelopeIcon, PhoneIcon} from '@heroicons/react/24/outline'
+import {BsInstagram, BsLinkedin, BsEnvelope, BsTelephone} from 'react-icons/bs';
 import Layout from "../components/layout";
 
 
@@ -15,38 +15,59 @@ export default function Example() {
                             <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Get in
                                 touch</h2>
                             <p className="mt-3 text-lg leading-6 text-gray-500">
-                                Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet.
-                                Sapien tortor lacus
-                                arcu.
+                                We will get back to you as soon as possible, visit us on Social Media
+                                to find out more about us
                             </p>
                             <dl className="mt-8 text-base text-gray-500">
                                 <div>
                                     <dt className="sr-only">Postal address</dt>
                                     <dd>
-                                        <p>742 Evergreen Terrace</p>
-                                        <p>Springfield, OR 12345</p>
+
+                                    </dd>
+                                </div>
+                                <div className="mt-6">
+                                    <dt className="sr-only">Instagram</dt>
+                                    <dd className="flex">
+                                        <BsInstagram className="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                     aria-hidden="true"/>
+                                        <a href="https://www.instagram.com/qubusinessbrigades/"
+                                           className="ml-3 underline">
+                                            @qubusinessbrigades
+                                        </a>
+                                    </dd>
+                                </div>
+                                <div className="mt-6">
+                                    <dt className="sr-only">linkedin</dt>
+                                    <dd className="flex">
+                                        <BsLinkedin className="h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true"/>
+                                        <a href="https://www.linkedin.com/company/queen-s-business-brigades/about/"
+                                           className="ml-3 underline">
+                                            Queen's Business Brigades
+                                        </a>
                                     </dd>
                                 </div>
                                 <div className="mt-6">
                                     <dt className="sr-only">Phone number</dt>
                                     <dd className="flex">
-                                        <PhoneIcon className="h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true"/>
-                                        <span className="ml-3">+1 (555) 123-4567</span>
+                                        <BsTelephone className="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                     aria-hidden="true"/>
+                                        <span className="ml-3">+1 (555) 555-5555</span>
                                     </dd>
                                 </div>
                                 <div className="mt-3">
                                     <dt className="sr-only">Email</dt>
                                     <dd className="flex">
-                                        <EnvelopeIcon className="h-6 w-6 flex-shrink-0 text-gray-400"
-                                                      aria-hidden="true"/>
+                                        <BsEnvelope className="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                    aria-hidden="true"/>
                                         <span className="ml-3">support@example.com</span>
                                     </dd>
                                 </div>
                             </dl>
                             <p className="mt-6 text-base text-gray-500">
-                                Looking for careers?{' '}
-                                <a href="#" className="font-medium text-gray-700 underline">
-                                    View all job openings
+                                Looking for more?{' '}
+                                <a href="https://linktr.ee/qubusinessbrigades"
+                                   className="font-medium text-gray-700 underline">
+                                    Here's our LinkTree
                                 </a>
                                 .
                             </p>
