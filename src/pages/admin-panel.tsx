@@ -19,7 +19,9 @@ interface Person {
 const AdminPanel: NextPage = () => {
   return (
     <Layout>
+      {/*⚠️⚠️⚠️⚠️ THE MARGIN BELOW BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
       <div className="mr-64 ml-64">
+        {/*⚠️⚠️⚠️⚠️ THE MARGIN ABOVE BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
         <form className="space-y-8 divide-y divide-gray-200">
           <div className="space-y-8 divide-y divide-gray-200">
             <div>
