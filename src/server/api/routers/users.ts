@@ -18,7 +18,7 @@ export const usersRouter = createTRPCRouter({
       console.log(error);
     }
   }),
-  updateUser: protectedProcedure.input(z.object({
+  updateUserRole: protectedProcedure.input(z.object({
     id: z.string(),
     role: z.string()
   }))
@@ -29,7 +29,9 @@ export const usersRouter = createTRPCRouter({
           where: {
             id: id
           },
-          data: role
+          data: {
+            role: role
+          }
         });
       } catch (error) {
         console.log(error);
