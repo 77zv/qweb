@@ -141,7 +141,7 @@ function classNames(...classes: (string | boolean)[]) {
 
 const Users: React.FC = () => {
     const { data: users } = api.users.getUsers.useQuery();
-    const [selectedPerson, setSelectedPerson] = useState<string>("");
+    const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
     const [persons, setPersons] = useState<Person[]>([{
       "id": "1",
       "name": "John Doe",
@@ -168,7 +168,7 @@ const Users: React.FC = () => {
               {users.map((user) => (
                 <Combobox.Option
                   key={user.id}
-                  value={user.name}
+                  value={user}
                   className={({ active }) =>
                     classNames(
                       "relative cursor-default select-none py-2 pl-3 pr-9",
@@ -199,17 +199,19 @@ const Users: React.FC = () => {
         </div>
         <button
           type="submit"
-          className=" mt-6 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="mt-6 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={(e) => {
             e.preventDefault();
             if (selectedPerson != undefined) {
               // find selectedPerson in users as a function
-              console.log(selectedPerson);
-              const selectedUser = users?.find((user) => user.name === selectedPerson);
 
-              if (selectedUser != undefined) {
-                setPersons([...persons, selectedUser]);
-                setSelectedPerson("");
+              if (typeof selectedPerson === "object") {
+                const selectedUser = users?.find((user) => user.name === selectedPerson.name);
+                const personExists = persons.find((person) => person.id === selectedUser?.id);
+                if (selectedUser != undefined && !personExists) {
+                  setPersons([...persons, selectedUser]);
+                  setSelectedPerson("");
+                }
               }
             }
           }}>
@@ -219,7 +221,7 @@ const Users: React.FC = () => {
           <label htmlFor="title" className="col-span-4 block text-2xl font-medium text-gray-700">
             Current Judges
           </label>
-        </div >
+        </div>
         {persons.map((person) => (
           <div className="col-span-4 block text-sm  mt-1" key={person.id}>{person.name}</div>
         ))}
