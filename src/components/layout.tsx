@@ -1,13 +1,16 @@
 import Navbar from './nav'
 import React from "react";
 import Footer from "./footer"
+import {Popover} from "@headlessui/react";
 
-export default function Layout({ children }: { children: React.ReactElement }) {
-  return (
-    <div className="overflow-hidden ">
-      <Navbar/>
-      <main className="overflow-hidden">{children}</main>
-        <Footer/>
-    </div>
-  )
+export default function Layout({children}: { children: React.ReactElement }) {
+    return (
+        <div className="overflow-hidden ">
+            <Navbar/>
+            <main className="overflow-hidden min-h-screen flex flex-col justify-start">{children}</main>
+            <div className="mt-auto">
+                <Footer/>
+            </div>
+        </div>
+    )
 }
