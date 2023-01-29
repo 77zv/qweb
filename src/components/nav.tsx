@@ -79,6 +79,8 @@ export default function Example() {
   );
 }
 
+
+
 const NavBar = () => {
   const { data: sessionData } = useSession();
   return (

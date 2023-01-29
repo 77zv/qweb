@@ -5,7 +5,7 @@ const MyComponent = () => {
   return (
     <Layout>
       <div>
-        <text>Placeholdegr</text>
+        <text>peehole</text>
       </div>
     </Layout>
   );

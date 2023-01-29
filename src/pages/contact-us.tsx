@@ -54,7 +54,7 @@ export default function Example() {
                                         <span className="ml-3">+1 (555) 555-5555</span>
                                     </dd>
                                 </div>
-                                <div className="mt-3">
+                                <div className="mt-6">
                                     <dt className="sr-only">Email</dt>
                                     <dd className="flex">
                                         <BsEnvelope className="h-6 w-6 flex-shrink-0 text-gray-400"
