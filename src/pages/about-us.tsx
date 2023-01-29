@@ -5,7 +5,7 @@ const MyComponent = () => {
   return (
     <Layout>
       <div>
-        <text>Placeholder</text>
+        <text>Placeholdegr</text>
       </div>
     </Layout>
   );
