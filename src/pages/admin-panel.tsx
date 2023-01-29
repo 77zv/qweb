@@ -344,7 +344,7 @@ const AdminPanel: NextPage = () => {
 
                   <div className="sm:col-span-6">
                     <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
-                      Cover photo
+                      Instructions PDF
                     </label>
                     <div
                       className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
