@@ -1,19 +1,16 @@
 import React from "react";
 import { type NextPage } from "next";
 import { api } from "../utils/api";
+import Layout from "../components/layout";
 
 
 const Events: NextPage = () => {
-  const { data, isLoading} = api.events.getAll.useQuery();
+  const { data, isLoading } = api.events.getEvent.useQuery();
   return (
-    <div>
-      {!isLoading && data && data.map((event) => (
-        <div key={event.id}>
-          <h1>{event.title}</h1>
-          <p>{event.description}</p>
-        </div>
-      ))}
-    </div>
+    <Layout>
+      <div className="bg-gradient-to-b from-[#1e3a8a] to-[#312e81]">
+      </div>
+    </Layout>
   );
 };
 

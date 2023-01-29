@@ -12,7 +12,9 @@ import {
   LifebuoyIcon,
   ShieldCheckIcon,
   Squares2X2Icon,
-  XMarkIcon
+  XMarkIcon,
+  ClipboardIcon,
+  BriefcaseIcon
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -64,11 +66,19 @@ const resources = [
     name: "Security", description: "Understand how we take your privacy seriously.",
     href: "#",
     icon: ShieldCheckIcon
-  }
-];
+  },
+  {
+    name: "Judges Panel", description: "Judges can access submissions here.",
+    href: "#",
+    icon: ClipboardIcon
+  },
+  {
+    name: "Admin Panel", description: "Admins can access submissions here.",
+    href: "admin-panel",
+    icon: BriefcaseIcon
+  },
 
-type ButtonFunction = typeof signIn | typeof signOut;
-type ButtonContent = "Sign in" | "Sign out";
+];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -89,7 +99,7 @@ const NavBar = () => {
         <div
           className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <Link href="#">
+            <Link href="/">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto sm:h-10"
@@ -159,10 +169,10 @@ const NavBar = () => {
               )}
             </Popover>
 
-            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <Link href="events" className="text-base font-medium text-gray-500 hover:text-gray-900">
               Events
             </Link>
-            <Link href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <Link href="about-us" className="text-base font-medium text-gray-500 hover:text-gray-900">
               About Us
             </Link>
 
@@ -211,6 +221,7 @@ const NavBar = () => {
                               </div>
                             </Link>
                           ))}
+                          {/*ADD JUDGES STUFF HERE*/}
                         </div>
                       </div>
                     </Popover.Panel>
