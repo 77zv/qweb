@@ -12,8 +12,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-import Button from "../components/button";
-
 import Link from "next/link";
 
 const resources = [
