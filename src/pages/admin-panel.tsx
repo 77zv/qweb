@@ -100,7 +100,7 @@ const AdminPanel: NextPage = () => {
             </div>
           </div>
         </form>
-        <Users></Users>
+        <Users/>
       </div>
     </Layout>
   );
