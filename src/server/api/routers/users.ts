@@ -5,7 +5,15 @@ import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 export const usersRouter = createTRPCRouter({
   getUsers: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.user.findMany();
+      return await ctx.prisma.user.findMany({
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true
+          }
+        }
+      );
     } catch (error) {
       console.log(error);
     }

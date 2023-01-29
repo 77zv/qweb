@@ -6,10 +6,14 @@ import { useState } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
+import { api } from "../utils/api";
+
 
 interface Person {
   id: number,
   name: string,
+  email: string,
+  role: string
 }
 
 const AdminPanel: NextPage = () => {
@@ -96,31 +100,21 @@ const AdminPanel: NextPage = () => {
             </div>
           </div>
         </form>
+        <Users></Users>
       </div>
     </Layout>
   );
 };
 
 
-const people: Person[] = [
-  { id: 1, name: "Leslie Alexander" }
-  // More users...
-];
-
 function classNames(...classes: (string | boolean)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Users = () => {
-  const [query, setQuery] = useState("");
-  const [selectedPerson, setSelectedPerson] = useState();
-
-  const filteredPeople =
-    query === ""
-      ? people
-      : people.filter((person) => {
-        return person.name.toLowerCase().includes(query.toLowerCase());
-      });
+const Users: React.FC = () => {
+  const { data: users } = api.users.getUsers.useQuery();
+  const [person, setPerson] = useState<Person[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<string>("");
 
   return (
     <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
@@ -128,20 +122,20 @@ const Users = () => {
       <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => setSelectedPerson(event.target.value)}
           displayValue={(person: Person) => person?.name}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
         </Combobox.Button>
 
-        {filteredPeople.length > 0 && (
+        {users != undefined && person.length > 0 && (
           <Combobox.Options
             className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {filteredPeople.map((person) => (
+            {users.map((user) => (
               <Combobox.Option
-                key={person.id}
-                value={person}
+                key={user.id}
+                value={user}
                 className={({ active }) =>
                   classNames(
                     "relative cursor-default select-none py-2 pl-3 pr-9",
@@ -151,7 +145,7 @@ const Users = () => {
               >
                 {({ active, selected }) => (
                   <>
-                    <span className={classNames("block truncate", selected && "font-semibold")}>{person.name}</span>
+                    <span className={classNames("block truncate", selected && "font-semibold")}>{user.name}</span>
 
                     {selected && (
                       <span
