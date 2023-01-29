@@ -23,8 +23,8 @@ const people = [
         imageUrl:
             'https://cdn.discordapp.com/attachments/958153229491925072/1069157120072753172/2017-09-18_08.37.38.jpg',
         bio: 'Chris Evans is an American actor best known for his role as Captain America in the Marvel Cinematic Universe.',
-        twitterUrl: '#',
-        linkedinUrl: '#',
+        twitterUrl: 'https://twitter.com/aidonmccomb',
+        linkedinUrl: 'https://www.instagram.com/aidon.ca/',
     },
     {
         name: 'Jasmine Johnson',
