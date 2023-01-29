@@ -10,7 +10,7 @@ import { api } from "../utils/api";
 
 
 interface Person {
-  id: number,
+  id: string,
   name: string,
   email: string,
   role: string
@@ -111,8 +111,9 @@ const AdminPanel: NextPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                  <Users/>
+                <div
+                  className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                  <Users />
                 </div>
               </div>
             </div>
@@ -137,61 +138,88 @@ function classNames(...classes: (string | boolean)[]) {
 }
 
 const Users: React.FC = () => {
-  const { data: users } = api.users.getUsers.useQuery();
-  const [selectedPerson, setSelectedPerson] = useState<string>("");
+    const { data: users } = api.users.getUsers.useQuery();
+    const [selectedPerson, setSelectedPerson] = useState<string>("");
+    const [persons, setPersons] = useState<Person[]>([{
+      "id": "1",
+      "name": "John Doe",
+      "email": "Jane@gmail.com",
+      "role": "Judge"
+    }]);
 
-  return (
-    <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
-      <Combobox.Label className="block text-sm font-medium text-gray-700">Judges</Combobox.Label>
-      <div className="relative mt-1">
-        <Combobox.Input
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-          onChange={(event) => setSelectedPerson(event.target.value)}
-          displayValue={(person: Person) => person?.name}
-        />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </Combobox.Button>
+    return (
+      <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
+        <Combobox.Label className="block text-sm font-medium text-gray-700">Judges</Combobox.Label>
+        <div className="relative mt-1">
+          <Combobox.Input
+            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            onChange={(event) => setSelectedPerson(event.target.value)}
+            displayValue={(person: Person) => person?.name}
+          />
+          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          </Combobox.Button>
 
+          {users != undefined && users.length > 0 && (
+            <Combobox.Options
+              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {users.map((user) => (
+                <Combobox.Option
+                  key={user.id}
+                  value={user.name}
+                  className={({ active }) =>
+                    classNames(
+                      "relative cursor-default select-none py-2 pl-3 pr-9",
+                      active ? "bg-indigo-600 text-white" : "text-gray-900"
+                    )
+                  }
+                >
+                  {({ active, selected }) => (
+                    <>
+                      <span className={classNames("block truncate", selected && "font-semibold")}>{user.name}</span>
 
-        {users != undefined && users.length > 0 && (
-          <Combobox.Options
-            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {users.map((user) => (
-              <Combobox.Option
-                key={user.id}
-                value={user}
-                className={({ active }) =>
-                  classNames(
-                    "relative cursor-default select-none py-2 pl-3 pr-9",
-                    active ? "bg-indigo-600 text-white" : "text-gray-900"
-                  )
-                }
-              >
-                {({ active, selected }) => (
-                  <>
-                    <span className={classNames("block truncate", selected && "font-semibold")}>{user.name}</span>
-
-                    {selected && (
-                      <span
-                        className={classNames(
-                          "absolute inset-y-0 right-0 flex items-center pr-4",
-                          active ? "text-white" : "text-indigo-600"
-                        )}
-                      >
+                      {selected && (
+                        <span
+                          className={classNames(
+                            "absolute inset-y-0 right-0 flex items-center pr-4",
+                            active ? "text-white" : "text-indigo-600"
+                          )}
+                        >
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
-                    )}
-                  </>
-                )}
-              </Combobox.Option>
-            ))}
-          </Combobox.Options>
-        )}
-      </div>
-    </Combobox>
-  );
-};
+                      )}
+                    </>
+                  )}
+                </Combobox.Option>
+              ))}
+            </Combobox.Options>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="mt-6 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={(e) => {
+            e.preventDefault();
+            if (selectedPerson != undefined) {
+              // find selectedPerson in users as a function
+              console.log(selectedPerson);
+              const selectedUser = users?.find((user) => user.name === selectedPerson);
+
+              if (selectedUser != undefined) {
+                setPersons([...persons, selectedUser]);
+                setSelectedPerson("")
+              }
+            }
+          }}>
+          Add Judge
+        </button>
+        {persons.map((person) => (
+          <div key={person.id}>{person.name}</div>
+        ))}
+      </Combobox>
+    );
+  }
+;
 
 export default AdminPanel;
 
