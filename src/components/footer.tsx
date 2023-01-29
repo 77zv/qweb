@@ -1,7 +1,4 @@
-import {SVGProps} from "react";
-import {BsInstagram, BsLinkedin, BsHouse, BsFacebook} from 'react-icons/bs';
-
-type IconProps = SVGProps<SVGSVGElement>;
+import {BsInstagram, BsLinkedin} from 'react-icons/bs';
 
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = [
