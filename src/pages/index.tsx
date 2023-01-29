@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       </Head>
       <Layout>
         <main
-          className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1e3a8a] to-[#312e81]">
+          className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1e3a8a] to-[#312e81] bg-gray-900 text-gray-100">
           <HomeContents/>
         </main>
       </Layout>
