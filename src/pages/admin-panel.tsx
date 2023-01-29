@@ -20,7 +20,7 @@ const AdminPanel: NextPage = () => {
   return (
     <Layout>
       {/*⚠️⚠️⚠️⚠️ THE MARGIN BELOW BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
-      <div className="mr-64 ml-64">
+      <div className="mr-64 ml-64 mt-9">
         {/*⚠️⚠️⚠️⚠️ THE MARGIN ABOVE BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
         <form className="space-y-8 divide-y divide-gray-200">
           <div className="space-y-8 divide-y divide-gray-200">
@@ -114,7 +114,7 @@ const AdminPanel: NextPage = () => {
                   </div>
                 </div>
                 <div
-                  className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                  className="sm:col-span-4 block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                   <Users />
                 </div>
               </div>
@@ -151,10 +151,10 @@ const Users: React.FC = () => {
 
     return (
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
-        <Combobox.Label className="block text-sm font-medium text-gray-700">Judges</Combobox.Label>
+        <Combobox.Label className=" block text-sm font-medium text-gray-700">Judges</Combobox.Label>
         <div className="relative mt-1">
           <Combobox.Input
-            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            className=" w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
             onChange={(event) => setSelectedPerson(event.target.value)}
             displayValue={(person: Person) => person?.name}
           />
@@ -199,7 +199,7 @@ const Users: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="mt-6 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className=" mt-6 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={(e) => {
             e.preventDefault();
             if (selectedPerson != undefined) {
@@ -209,14 +209,19 @@ const Users: React.FC = () => {
 
               if (selectedUser != undefined) {
                 setPersons([...persons, selectedUser]);
-                setSelectedPerson("")
+                setSelectedPerson("");
               }
             }
           }}>
           Add Judge
         </button>
+        <div className="mt-3">
+          <label htmlFor="title" className="col-span-4 block text-2xl font-medium text-gray-700">
+            Current Judges
+          </label>
+        </div >
         {persons.map((person) => (
-          <div key={person.id}>{person.name}</div>
+          <div className="col-span-4 block text-sm  mt-1" key={person.id}>{person.name}</div>
         ))}
       </Combobox>
     );
