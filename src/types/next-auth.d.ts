@@ -4,6 +4,7 @@ declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
+
   interface Session {
     user?: {
       id: string;
@@ -11,6 +12,6 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
   interface User extends DefaultUser {
-    role: "USER";
+    role: string;
   }
 }
