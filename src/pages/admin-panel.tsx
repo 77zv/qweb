@@ -29,7 +29,7 @@ const AdminPanel: NextPage = () => {
     const createEvent = api.events.createEvent.useMutation();
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
     const [persons, setPersons] = useState<Person[]>([]);
-    const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null | undefined>(null);
 
 
     if (id === null && !isLoading) {
@@ -162,14 +162,12 @@ const AdminPanel: NextPage = () => {
                                      type="file" className="sr-only"
                                      onChange={(event) => {
                                        // check if files are null
-                                       if (event.target.files)
-                                         return;
-
-                                        // get the first file
-                                        const file = event.target.files![-1];
-
-                                        // set the file
-                                        setFile(file!);
+                                       if (event.target.files != undefined){
+                                         const file = event.target.files[-1];
+                                         // set the file
+                                         setFile(file);
+                                       }
+                                       // get the first file
                                      }} />
                             </label>
                             <p className="pl-1">or drag and drop</p>
@@ -407,17 +405,15 @@ const AdminPanel: NextPage = () => {
                             <span>Upload a file</span>
                             <input id="file-upload" name="file-upload" type="file"
                                    className="sr-only"
-                              onChange={(event) => {
-                              // check if files are null
-                              if (event.target.files)
-                                return;
-
-                              // get the first file
-                              const file = event.target.files![-1];
-
-                              // set the file
-                              setFile(file!);
-                            }}/>
+                                   onChange={(event) => {
+                                     // check if files are null
+                                     if (event.target.files != undefined){
+                                       // get the first file
+                                       const file = event.target.files[-1];
+                                       // set the file
+                                       setFile(file);
+                                     }
+                                   }} />
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
