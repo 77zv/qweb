@@ -29,6 +29,7 @@ const AdminPanel: NextPage = () => {
     const createEvent = api.events.createEvent.useMutation();
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
     const [persons, setPersons] = useState<Person[]>([]);
+    const [file, setFile] = useState<File | null | undefined>(null);
 
 
     if (id === null && !isLoading) {
@@ -56,23 +57,29 @@ const AdminPanel: NextPage = () => {
                 });
                 setTitle("");
                 setDescription("");
-                setSelectedPerson("")
-                setPersons([])
+                setSelectedPerson("");
+                setPersons([]);
+
+
               }
               }
             >
               <div className="space-y-8 divide-y divide-gray-200">
                 <div>
                   <div>
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">Edit Event</h3>
+                    <h3
+                      className="text-lg font-medium leading-6 text-gray-900">Edit
+                      Event</h3>
                     <p className="mt-1 text-sm text-gray-500">
                       This information will be displayed publicly.
                     </p>
                   </div>
 
-                  <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div
+                    className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div className="sm:col-span-4">
-                      <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="title"
+                             className="block text-sm font-medium text-gray-700">
                         Title
                       </label>
                       <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -88,7 +95,8 @@ const AdminPanel: NextPage = () => {
                     </div>
 
                     <div className="sm:col-span-6">
-                      <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="about"
+                             className="block text-sm font-medium text-gray-700">
                         Description
                       </label>
                       <div className="mt-1">
@@ -101,12 +109,14 @@ const AdminPanel: NextPage = () => {
                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                       </div>
-                      <p className="mt-2 text-sm text-gray-500">Write a description for the event.</p>
+                      <p className="mt-2 text-sm text-gray-500">Write a
+                        description for the event.</p>
                     </div>
 
                     {/*date stuff*/}
                     <div className="sm:col-span-4">
-                      <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="title"
+                             className="block text-sm font-medium text-gray-700">
                         Submissions Open
                       </label>
                       <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -120,7 +130,8 @@ const AdminPanel: NextPage = () => {
                     </div>
 
                     <div className="sm:col-span-6">
-                      <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="cover-photo"
+                             className="block text-sm font-medium text-gray-700">
                         Cover photo
                       </label>
                       <div
@@ -146,7 +157,18 @@ const AdminPanel: NextPage = () => {
                               className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                             >
                               <span>Upload a file</span>
-                              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+
+                              <input id="file-upload" name="file-upload"
+                                     type="file" className="sr-only"
+                                     onChange={(event) => {
+                                       // check if files are null
+                                       if (event.target.files != undefined){
+                                         const file = event.target.files[-1];
+                                         // set the file
+                                         setFile(file);
+                                       }
+                                       // get the first file
+                                     }} />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
@@ -156,8 +178,10 @@ const AdminPanel: NextPage = () => {
                     </div>
                     <div
                       className="sm:col-span-4 block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                      <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
-                        <Combobox.Label className=" block text-sm font-medium text-gray-700">Judges</Combobox.Label>
+                      <Combobox as="div" value={selectedPerson}
+                                onChange={setSelectedPerson}>
+                        <Combobox.Label
+                          className=" block text-sm font-medium text-gray-700">Judges</Combobox.Label>
                         <div className="relative mt-1">
                           <Combobox.Input
                             className=" w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
@@ -166,7 +190,8 @@ const AdminPanel: NextPage = () => {
                           />
                           <Combobox.Button
                             className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400"
+                                               aria-hidden="true" />
                           </Combobox.Button>
 
                           {users != undefined && users.length > 0 && (
@@ -226,12 +251,14 @@ const AdminPanel: NextPage = () => {
                           Add Judge
                         </button>
                         <div className="mt-3">
-                          <label htmlFor="title" className="col-span-4 block text-2xl font-medium text-gray-700">
+                          <label htmlFor="title"
+                                 className="col-span-4 block text-2xl font-medium text-gray-700">
                             Current Judges
                           </label>
                         </div>
                         {persons.map((person) => (
-                          <div className="col-span-4 block text-sm  mt-1" key={person.id}>{person.name}</div>
+                          <div className="col-span-4 block text-sm  mt-1"
+                               key={person.id}>{person.name}</div>
                         ))}
                       </Combobox>
                     </div>
@@ -272,7 +299,7 @@ const AdminPanel: NextPage = () => {
                 );
                 // loop through persons and update their role
                 persons.forEach((person) => {
-                  console.log(person.id)
+                  console.log(person.id);
                   updateRole.mutate({
                     id: person.id,
                     role: "judge"
@@ -281,21 +308,24 @@ const AdminPanel: NextPage = () => {
               }
               setTitle("");
               setDescription("");
-              setSelectedPerson("")
-              setPersons([])
+              setSelectedPerson("");
+              setPersons([]);
             }}>
             <div className="space-y-8 divide-y divide-gray-200">
               <div>
                 <div>
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Edit Event</h3>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">Edit
+                    Event</h3>
                   <p className="mt-1 text-sm text-gray-500">
                     This information will be displayed publicly.
                   </p>
                 </div>
 
-                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                <div
+                  className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                   <div className="sm:col-span-4">
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="title"
+                           className="block text-sm font-medium text-gray-700">
                       Title
                     </label>
                     <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -311,7 +341,8 @@ const AdminPanel: NextPage = () => {
                   </div>
 
                   <div className="sm:col-span-6">
-                    <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="about"
+                           className="block text-sm font-medium text-gray-700">
                       Description
                     </label>
                     <div className="mt-1">
@@ -324,12 +355,14 @@ const AdminPanel: NextPage = () => {
                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">Write a description for the event.</p>
+                    <p className="mt-2 text-sm text-gray-500">Write a description
+                      for the event.</p>
                   </div>
 
                   {/*date stuff*/}
                   <div className="sm:col-span-4">
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="title"
+                           className="block text-sm font-medium text-gray-700">
                       Submissions Open
                     </label>
                     <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -343,8 +376,9 @@ const AdminPanel: NextPage = () => {
                   </div>
 
                   <div className="sm:col-span-6">
-                    <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
-                      Cover photo
+                    <label htmlFor="cover-photo"
+                           className="block text-sm font-medium text-gray-700">
+                      Instructions PDF
                     </label>
                     <div
                       className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
@@ -369,7 +403,17 @@ const AdminPanel: NextPage = () => {
                             className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            <input id="file-upload" name="file-upload" type="file"
+                                   className="sr-only"
+                                   onChange={(event) => {
+                                     // check if files are null
+                                     if (event.target.files != undefined){
+                                       // get the first file
+                                       const file = event.target.files[-1];
+                                       // set the file
+                                       setFile(file);
+                                     }
+                                   }} />
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
@@ -379,8 +423,10 @@ const AdminPanel: NextPage = () => {
                   </div>
                   <div
                     className="sm:col-span-4 block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
-                      <Combobox.Label className=" block text-sm font-medium text-gray-700">Judges</Combobox.Label>
+                    <Combobox as="div" value={selectedPerson}
+                              onChange={setSelectedPerson}>
+                      <Combobox.Label
+                        className=" block text-sm font-medium text-gray-700">Judges</Combobox.Label>
                       <div className="relative mt-1">
                         <Combobox.Input
                           className=" w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
@@ -389,7 +435,8 @@ const AdminPanel: NextPage = () => {
                         />
                         <Combobox.Button
                           className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          <ChevronUpDownIcon className="h-5 w-5 text-gray-400"
+                                             aria-hidden="true" />
                         </Combobox.Button>
 
                         {users != undefined && users.length > 0 && (
@@ -449,12 +496,14 @@ const AdminPanel: NextPage = () => {
                         Add Judge
                       </button>
                       <div className="mt-3">
-                        <label htmlFor="title" className="col-span-4 block text-2xl font-medium text-gray-700">
+                        <label htmlFor="title"
+                               className="col-span-4 block text-2xl font-medium text-gray-700">
                           Current Judges
                         </label>
                       </div>
                       {persons.map((person) => (
-                        <div className="col-span-4 block text-sm  mt-1" key={person.id}>{person.name}</div>
+                        <div className="col-span-4 block text-sm  mt-1"
+                             key={person.id}>{person.name}</div>
                       ))}
                     </Combobox>
                   </div>
