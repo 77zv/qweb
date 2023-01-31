@@ -42,7 +42,7 @@ export default function Example() {
                                         <BsLinkedin className="h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true"/>
                                         <a href="https://www.linkedin.com/company/queen-s-business-brigades/about/"
                                            className="ml-3 underline">
-                                            Queen's Business Brigades
+                                            Queen&apos;s Business Brigades
                                         </a>
                                     </dd>
                                 </div>
@@ -67,7 +67,7 @@ export default function Example() {
                                 Looking for more?{' '}
                                 <a href="https://linktr.ee/qubusinessbrigades"
                                    className="font-medium text-gray-700 underline">
-                                    Here's our LinkTree
+                                    Here&apos;s our LinkTree
                                 </a>
                                 .
                             </p>

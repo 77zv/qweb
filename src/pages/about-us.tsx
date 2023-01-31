@@ -64,13 +64,13 @@ export default function Example() {
                         <div className="space-y-5 sm:space-y-4">
                             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Team</h2>
                             <p className="text-xl text-gray-500">
-                                The Queen's Business Brigade is a dynamic organization comprised of ambitious young
+                                The Queen&apos;s Business Brigade is a dynamic organization comprised of ambitious young
                                 professionals and students. With a focus on community outreach and skill-building, the
                                 Brigade strives to create meaningful impact in the local business landscape. Members
                                 participate in events, workshops, and networking opportunities, gaining valuable
                                 experience and making valuable connections. The Brigade also hosts guest speakers and
                                 arranges tours of successful businesses to provide members with a unique perspective on
-                                the business world. Ultimately, the Queen's Business Brigade prepares its members for
+                                the business world. Ultimately, the Queen&apos;s Business Brigade prepares its members for
                                 successful careers by fostering a spirit of innovation and collaboration.
                             </p>
                         </div>
