@@ -42,14 +42,18 @@ export const eventRouter = createTRPCRouter({
     z.object({
       title: z.string(),
       description: z.string(),
+      submissionOpen: z.optional(z.date()),
+      submissionClose: z.optional(z.date()),
     }))
     .mutation(async ({ ctx, input }) => {
-      const { title, description } = input;
+      const { title, description, submissionOpen, submissionClose } = input;
       try {
         return await ctx.prisma.event.create({
           data: {
-            title: title,
-            description: description
+            title,
+            description,
+            submissionOpen,
+            submissionClose,
           }
         });
       } catch (error) {
