@@ -65,7 +65,8 @@ const AdminPanel: NextPage = () => {
                 setDescription("");
                 setSelectedPerson("");
                 setPersons([]);
-
+                setSubmissionsOpen(new Date())
+                setSubmissionsClose(new Date())
 
               }
               }
@@ -148,7 +149,7 @@ const AdminPanel: NextPage = () => {
                           name="submissionClose"
                           id="submissionsClose"
                           className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
+                          onChange={(event) => setSubmissionsClose(new Date(event.target.value))}
                         />
                       </div>
                     </div>
@@ -336,6 +337,8 @@ const AdminPanel: NextPage = () => {
               setDescription("");
               setSelectedPerson("");
               setPersons([]);
+              setSubmissionsOpen(new Date())
+              setSubmissionsClose(new Date())
             }}>
             <div className="space-y-8 divide-y divide-gray-200">
               <div>
@@ -413,7 +416,7 @@ const AdminPanel: NextPage = () => {
                         name="title"
                         id="title"
                         className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
+                        onChange={(event) => setSubmissionsClose(new Date(event.target.value))}
                       />
                     </div>
                   </div>

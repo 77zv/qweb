@@ -21,17 +21,22 @@ export const eventRouter = createTRPCRouter({
       id: z.string(),
       title: z.string(),
       description: z.string(),
+      submissionsOpen: z.optional(z.date()),
+      submissionsClose: z.optional(z.date()),
+
     }))
     .mutation(async ({ ctx, input }) => {
-      const { id, title, description } = input;
+      const { id, title, description, submissionsOpen, submissionsClose } = input;
       try {
         return await ctx.prisma.event.update({
           where: {
             id: id
           },
           data: {
-            title: title,
-            description: description
+            title,
+            description,
+            submissionsOpen,
+            submissionsClose
           }
         });
       } catch (error) {
@@ -42,18 +47,18 @@ export const eventRouter = createTRPCRouter({
     z.object({
       title: z.string(),
       description: z.string(),
-      submissionOpen: z.optional(z.date()),
-      submissionClose: z.optional(z.date()),
+      submissionsOpen: z.optional(z.date()),
+      submissionsClose: z.optional(z.date()),
     }))
     .mutation(async ({ ctx, input }) => {
-      const { title, description, submissionOpen, submissionClose } = input;
+      const { title, description, submissionsOpen, submissionsClose } = input;
       try {
         return await ctx.prisma.event.create({
           data: {
             title,
             description,
-            submissionOpen,
-            submissionClose,
+            submissionsOpen,
+            submissionsClose,
           }
         });
       } catch (error) {
