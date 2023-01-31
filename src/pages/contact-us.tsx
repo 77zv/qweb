@@ -1,6 +1,5 @@
-import {BsInstagram, BsLinkedin, BsEnvelope, BsTelephone} from 'react-icons/bs';
+import { BsEnvelope, BsInstagram, BsLinkedin, BsTelephone } from 'react-icons/bs';
 import Layout from "../components/layout";
-
 
 export default function Example() {
     return (
