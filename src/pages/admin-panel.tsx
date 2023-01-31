@@ -7,6 +7,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
 import { api } from "../utils/api";
+import { DateTime } from "next-auth/providers/kakao";
 
 
 interface Person {
@@ -23,12 +24,14 @@ const AdminPanel: NextPage = () => {
 
     const updateRole = api.users.updateUserRole.useMutation();
     const updateEvent = api.events.updateEvent.useMutation();
+    const createEvent = api.events.createEvent.useMutation();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const createEvent = api.events.createEvent.useMutation();
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
     const [persons, setPersons] = useState<Person[]>([]);
+    const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>();
+    const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>();
     const [file, setFile] = useState<File | null | undefined>(null);
 
 
@@ -46,7 +49,10 @@ const AdminPanel: NextPage = () => {
                 // check if id is undefined
                 createEvent.mutate({
                   title,
-                  description
+                  description,
+                  submissionsOpen,
+                  submissionsClose
+
                 });
                 // map through persons and update role
                 persons.forEach((person) => {
@@ -122,9 +128,27 @@ const AdminPanel: NextPage = () => {
                       <div className="mt-1 flex rounded-md rounded-md shadow-sm">
                         <input
                           type="datetime-local"
-                          name="title"
-                          id="title"
+                          name="submissionsOpen"
+                          id="submissionsOpen"
                           className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
+                        />
+                      </div>
+                    </div>
+
+                    {/*date stuff*/}
+                    <div className="sm:col-span-4">
+                      <label htmlFor="title"
+                             className="block text-sm font-medium text-gray-700">
+                        Submissions Close
+                      </label>
+                      <div className="mt-1 flex rounded-md rounded-md shadow-sm">
+                        <input
+                          type="datetime-local"
+                          name="submissionClose"
+                          id="submissionsClose"
+                          className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
                         />
                       </div>
                     </div>
@@ -132,7 +156,7 @@ const AdminPanel: NextPage = () => {
                     <div className="sm:col-span-6">
                       <label htmlFor="cover-photo"
                              className="block text-sm font-medium text-gray-700">
-                        Cover photo
+                        PDF
                       </label>
                       <div
                         className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
@@ -162,7 +186,7 @@ const AdminPanel: NextPage = () => {
                                      type="file" className="sr-only"
                                      onChange={(event) => {
                                        // check if files are null
-                                       if (event.target.files != undefined){
+                                       if (event.target.files != undefined) {
                                          const file = event.target.files[-1];
                                          // set the file
                                          setFile(file);
@@ -294,7 +318,9 @@ const AdminPanel: NextPage = () => {
                 updateEvent.mutate({
                     id: id.id,
                     title,
-                    description
+                    description,
+                    submissionsOpen,
+                    submissionsClose
                   }
                 );
                 // loop through persons and update their role
@@ -371,6 +397,23 @@ const AdminPanel: NextPage = () => {
                         name="title"
                         id="title"
                         className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
+                      />
+                    </div>
+                  </div>
+                  {/*date stuff*/}
+                  <div className="sm:col-span-4">
+                    <label htmlFor="title"
+                           className="block text-sm font-medium text-gray-700">
+                      Submissions Close
+                    </label>
+                    <div className="mt-1 flex rounded-md rounded-md shadow-sm">
+                      <input
+                        type="datetime-local"
+                        name="title"
+                        id="title"
+                        className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
                       />
                     </div>
                   </div>
@@ -407,7 +450,7 @@ const AdminPanel: NextPage = () => {
                                    className="sr-only"
                                    onChange={(event) => {
                                      // check if files are null
-                                     if (event.target.files != undefined){
+                                     if (event.target.files != undefined) {
                                        // get the first file
                                        const file = event.target.files[-1];
                                        // set the file

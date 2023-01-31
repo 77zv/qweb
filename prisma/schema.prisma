@@ -50,7 +50,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
@@ -67,10 +67,11 @@ model VerificationToken {
 }
 
 model Event {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  date        DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String    @id @default(cuid())
+  title            String
+  description      String
+  submissionsOpen  String
+  submissionsClose String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
