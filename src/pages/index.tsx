@@ -21,7 +21,7 @@ const Home: NextPage = () => {
             <Layout>
                 <main
                     className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1e3a8a] to-[#312e81] bg-gray-900 text-gray-100">
-                    <HomeContents/>
+                    <HomeContent/>
                 </main>
             </Layout>
         </>
@@ -47,7 +47,7 @@ const HomeContent = () => {
                             <div>
                                 <Button
                                     //variant="secondary-inverted"
-                                    style = {{backgroundColor: '#1e40af', color: '#eff6ff', borderColor: '#312e81'}}
+                                    style={{backgroundColor: '#1e40af', color: '#eff6ff', borderColor: '#312e81'}}
                                     size="xl"
                                     onClick={() => void signIn("google")}
                                 >
@@ -61,10 +61,16 @@ const HomeContent = () => {
                             Queen's Business Brigade
                         </h2>
                         <p className="mt-6 text-lg text-gray-500">
-                            The Queens Business Brigade (QBB) is a non-profit organization that aims to create economic opportunities in developing countries by empowering local communities. It is a global movement of students
-                            and professionals who are dedicated to making a positive impact in the world through entrepreneurship and business development.
-                            The QBB works with local partners to identify needs and opportunities, and then provides training, mentorship, and support to help individuals and communities start and grow their own businesses.
-                            The goal of the QBB is to create sustainable and equitable economic growth in developing countries, while also helping to build a more interconnected and equitable global community.
+                            The Queens Business Brigade (QBB) is a non-profit organization that aims to create economic
+                            opportunities in developing countries by empowering local communities. It is a global
+                            movement of students
+                            and professionals who are dedicated to making a positive impact in the world through
+                            entrepreneurship and business development.
+                            The QBB works with local partners to identify needs and opportunities, and then provides
+                            training, mentorship, and support to help individuals and communities start and grow their
+                            own businesses.
+                            The goal of the QBB is to create sustainable and equitable economic growth in developing
+                            countries, while also helping to build a more interconnected and equitable global community.
                         </p>
                         <div className="mt-8 overflow-hidden justify-center">
                             <dl className="-mx-8 -mt-8 flex flex-wrap">
@@ -86,39 +92,7 @@ const HomeContent = () => {
                 </div>
             </div>
 
-        )
-
-}
-
-const HomeContents = () => {
-    const {data} = useSession();
-
-    if (!data)
-        return (
-            <div className="relative flex h-screen w-screen flex-col justify-between bg-landing">
-                <div className="flex grow flex-col items-center justify-center p-4 align-middle">
-                    <div className="relative mb-8 text-6xl font-bold">
-                        Queen's Business Brigade
-                    </div>
-                    <div className="mb-8 text-center text-lg">
-                        The Queens Business Brigade (QBB) is a non-profit organization that aims to create economic opportunities in developing countries by empowering local communities. It is a global movement of students
-                        and professionals who are dedicated to making a positive impact in the world through entrepreneurship and business development.
-                        The QBB works with local partners to identify needs and opportunities, and then provides training, mentorship, and support to help individuals and communities start and grow their own businesses.
-                        The goal of the QBB is to create sustainable and equitable economic growth in developing countries, while also helping to build a more interconnected and equitable global community.
-                    </div>
-                    <Button
-                        variant="secondary-inverted"
-                        size="xl"
-                        onClick={() => void signIn("google")}
-                    >
-                        <div className="flex items-center">
-                            <FaGoogle/> &nbsp; Sign In
-                        </div>
-                    </Button>
-                </div>
-            </div>
         );
-
     return (
         <div className="flex min-h-0 flex-1 flex-col">
             <div className="flex items-center justify-between px-4 pt-4 pb-2 sm:py-4 sm:px-8">
@@ -131,7 +105,8 @@ const HomeContents = () => {
             </div>
         </div>
     );
-};
+
+}
 
 export default Home;
 
