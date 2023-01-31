@@ -1,13 +1,50 @@
 import {type NextPage} from "next";
 import Head from "next/head";
-import Link from "next/link";
+//import Link from "next/link";
 import {signIn, signOut, useSession} from "next-auth/react";
-import {UsersIcon} from '@heroicons/react/24/outline'
+//import {UsersIcon} from '@heroicons/react/24/outline'
 
-import {api} from "../utils/api";
+//import {api} from "../utils/api";
 import Layout from "../components/layout";
 import Button from "../components/button";
 import {FaGoogle} from "react-icons/fa";
+import {Menu} from "@headlessui/react";
+import {HandThumbUpIcon, ShareIcon} from "@heroicons/react/20/solid";
+
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
+const tabs = [
+    {name: 'Previous Event', href: '#', current: false},
+
+    {name: 'Current Event', href: '#', current: true},
+
+    {name: 'Next Event', href: '#', current: false},
+]
+
+//replace with data taken from server
+const events = [
+    {
+        href: "#",
+        id: "000001",
+        name: "Stock Picking Competition 2023",
+        startDate: "March 1st, 2023",
+        endDate: "May 31st, 2023",
+        likes: "0",
+        description: "Are you an expert in stock picking? Join our Stock Picking Competition 2023 and put your skills to the test. " +
+            "Compete against other investors and traders from all over the world to see who can make the most profit in three months. " +
+            "Participants must pick a portfolio of five stocks and track their performance until the end of the competition. Prizes will be " +
+            "awarded to the top three performers with the highest returns. So, what are you waiting for? Sign up now and show the world your " +
+            "stock picking prowess!",
+        attachments: [
+            {
+                name: "event_package_one.zip",
+                url: "#"
+            }
+        ]
+    }
+];
 
 const Home: NextPage = () => {
 
@@ -46,7 +83,6 @@ const HomeContent = () => {
                         <div>
                             <div>
                                 <Button
-                                    //variant="secondary-inverted"
                                     style={{backgroundColor: '#1e40af', color: '#eff6ff', borderColor: '#312e81'}}
                                     size="xl"
                                     onClick={() => void signIn("google")}
@@ -96,11 +132,116 @@ const HomeContent = () => {
     return (
         <div className="flex min-h-0 flex-1 flex-col">
             <div className="flex items-center justify-between px-4 pt-4 pb-2 sm:py-4 sm:px-8">
-                <div className="relative whitespace-nowrap text-2xl font-bold">
-                    Queens University{" "}
-                    <sup className="absolute top-0 left-[calc(100%+.25rem)] text-xs font-extrabold text-pink-400">
-                        [BETA]
-                    </sup>
+                <div className="min-h-full">
+                    {/* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */}
+                    <div className="flex justify-center items-center">
+                        <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                            Queen's Business Brigade
+                        </h2>
+                    </div>
+                    //need all this shit to center, but it won't :(
+                    <div className="flex py-10 justify-center items-center">
+                        <div
+                            className="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
+                            <main className="lg:col-span-9 xl:col-span-6">
+                                <div className="px-4 sm:px-0">
+                                    <div className="sm:hidden">
+                                        <select
+                                            id="events-tabs"
+                                            className="block w-full rounded-md border-gray-300 text-base font-medium text-gray-900 shadow-sm focus:border-rose-500 focus:ring-rose-500"
+                                            defaultValue={(tabs.find((tab) => tab.current) || {}).name}
+                                        >
+                                            {tabs.map((tab) => (
+                                                <option key={tab.name}>{tab.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="hidden sm:block">
+                                        <nav className="isolate flex divide-x divide-gray-200 rounded-lg shadow"
+                                             aria-label="Tabs">
+                                            {tabs.map((tab, tabIdx) => (
+                                                <a
+                                                    key={tab.name}
+                                                    href={tab.href}
+                                                    aria-current={tab.current ? 'page' : undefined}
+                                                    className={classNames(
+                                                        tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700',
+                                                        tabIdx === 0 ? 'rounded-l-lg' : '',
+                                                        tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '',
+                                                        'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'
+                                                    )}
+                                                >
+                                                    <span>{tab.name}</span>
+                                                    <span
+                                                        aria-hidden="true"
+                                                        className={classNames(
+                                                            tab.current ? 'bg-rose-500' : 'bg-transparent',
+                                                            'absolute inset-x-0 bottom-0 h-0.5'
+                                                        )}
+                                                    />
+                                                </a>
+                                            ))}
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div className="mt-4">
+                                    <h1 className="sr-only">Recent Events</h1>
+                                    <ul role="list" className="space-y-4">
+                                        {events.map((event) => (
+                                            <li key={event.id}
+                                                className="bg-white px-4 py-6 shadow sm:rounded-lg sm:p-6">
+                                                <article aria-labelledby={'event-title-' + event.id}>
+                                                    <div>
+                                                        <div className="flex space-x-3">
+                                                            <div className="min-w-0 flex-1">
+                                                                <p className="text-sm font-medium text-gray-900">
+                                                                    <div>
+                                                                        {event.startDate + ' - ' + event.endDate}
+                                                                    </div>
+                                                                </p>
+                                                            </div>
+                                                            <div className="flex flex-shrink-0 self-center">
+                                                                <Menu as="div"
+                                                                      className="relative inline-block text-left">
+                                                                </Menu>
+                                                            </div>
+                                                        </div>
+                                                        <h2 id={'question-title-' + event.id}
+                                                            className="mt-4 text-base font-medium text-gray-900">
+                                                            {event.name}
+                                                        </h2>
+                                                    </div>
+                                                    <div
+                                                        className="mt-2 space-y-4 text-sm text-gray-700"
+                                                        dangerouslySetInnerHTML={{__html: event.description}}
+                                                    />
+                                                    <div className="mt-6 flex justify-between space-x-8">
+                                                        <div className="flex space-x-6">
+                            <span className="inline-flex items-center text-sm">
+                              <button type="button" className="inline-flex space-x-2 text-gray-400 hover:text-gray-500">
+                                <HandThumbUpIcon className="h-5 w-5" aria-hidden="true"/>
+                                <span className="font-medium text-gray-900">{event.likes}</span>
+                                <span className="sr-only">likes</span>
+                              </button>
+                            </span>
+                                                        </div>
+                                                        <div className="flex text-sm">
+                            <span className="inline-flex items-center text-sm">
+                              <button type="button" className="inline-flex space-x-2 text-gray-400 hover:text-gray-500">
+                                <ShareIcon className="h-5 w-5" aria-hidden="true"/>
+                                <span className="font-medium text-gray-900">Share</span>
+                              </button>
+                            </span>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
