@@ -3,7 +3,6 @@ import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import {
   GetObjectCommand,
   PutObjectCommand,
-  S3Client
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -36,7 +35,7 @@ export const eventRouter = createTRPCRouter({
       // check if we need to upload file to r2, if so update fileUrl also
       if (file) {
         // upload to r2
-        const r2UploadResp = await ctx.r2.send(new PutObjectCommand({
+        await ctx.r2.send(new PutObjectCommand({
           Bucket: "qweb",
           Key: file.name,
           Body: file
@@ -61,6 +60,7 @@ export const eventRouter = createTRPCRouter({
           }
         });
       } else {
+        // we don't need to upload the file, just update the event
         return await ctx.prisma.event.update({
           where: {
             id: id
@@ -95,7 +95,7 @@ export const eventRouter = createTRPCRouter({
     } = input;
     try {
       // upload to r2
-      const r2UploadResp = await ctx.r2.send(new PutObjectCommand({
+      await ctx.r2.send(new PutObjectCommand({
         Bucket: "qweb",
         Key: file.name,
         Body: file
