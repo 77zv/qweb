@@ -29,7 +29,7 @@ const AdminPanel: NextPage = () => {
         const [persons, setPersons] = useState<Person[]>([]);
         const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>();
         const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>();
-        const [file, setFile] = useState<File | null | undefined>(null);
+        const [file, setFile] = useState<File | undefined>(undefined);
 
 
         if (id === null && !isLoading) {
@@ -47,9 +47,9 @@ const AdminPanel: NextPage = () => {
                                 createEvent.mutate({
                                     title,
                                     description,
+                                    file: file!,
                                     submissionsOpen,
                                     submissionsClose
-
                                 });
                                 // map through persons and update role
                                 persons.forEach((person) => {
