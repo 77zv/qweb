@@ -22,12 +22,13 @@ const AdminPanel: NextPage = () => {
     const createEvent = api.events.createEvent.useMutation();
 
     const [title, setTitle] = useState("");
-    const [description, setDescription] = useState( "");
+    const [description, setDescription] = useState("");
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
     const [persons, setPersons] = useState<Person[]>([]);
-    const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>( undefined);
-    const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>( undefined);
+    const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>(undefined);
+    const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>(undefined);
     const [file, setFile] = useState<File | undefined>(undefined);
+    const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (event) {
@@ -35,12 +36,12 @@ const AdminPanel: NextPage = () => {
             setDescription(event.description);
             setSubmissionsOpen(event.submissionsOpen!);
             setSubmissionsClose(event.submissionsClose!);
+            setFileUrl(event.fileUrl);
         }
         if (users) {
             setPersons(users);
         }
     }, [isLoadingEvent, isLoadingUsers]);
-
 
     return (
         <Layout>
@@ -51,12 +52,27 @@ const AdminPanel: NextPage = () => {
                     className="space-y-8 divide-y divide-gray-200"
                     onSubmit={async (e) => {
                         e.preventDefault();
+
                         // check if event is not undefined which means
-                        // there is already an event
+                        // there is already an event and we dont have to create one,
+                        // prob will never occur
                         if (event) {
                             updateEvent.mutate({
                                 id: event.id,
                                 title,
+                                file: (() => {
+                                    if (file != undefined) {
+                                        return {
+                                            name: file.name,
+                                            body: file.stream(),
+                                        };
+                                    }
+
+                                    return {
+                                        name: "ya",
+                                        body: new ReadableStream(),
+                                    };
+                                })(),
                                 description,
                                 submissionsOpen,
                                 submissionsClose,
@@ -168,6 +184,7 @@ const AdminPanel: NextPage = () => {
                                     </div>
                                 </div>
 
+                                {/*file stuff*/}
                                 <div className="sm:col-span-6">
                                     <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
                                         PDF
@@ -194,7 +211,6 @@ const AdminPanel: NextPage = () => {
                                                     className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                                                 >
                                                     <span>Upload a file</span>
-
                                                     <input
                                                         id="file-upload"
                                                         name="file-upload"
@@ -217,6 +233,7 @@ const AdminPanel: NextPage = () => {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:col-span-4 sm:text-sm">
                                     <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
                                         <Combobox.Label className=" block text-sm font-medium text-gray-700">
@@ -339,6 +356,7 @@ const AdminPanel: NextPage = () => {
         </Layout>
     );
 };
+
 function classNames(...classes: (string | boolean)[]) {
     return classes.filter(Boolean).join(" ");
 }
