@@ -129,4 +129,69 @@ export const eventRouter = createTRPCRouter({
                 console.log(error);
             }
         }),
+
+    upsertEvent: adminProcedure
+        .input(
+            z.object({
+                id: z.string(),
+                title: z.string(),
+                description: z.string(),
+                file: z.optional(
+                    z.object({
+                        name: z.string(),
+                        body: z.instanceof(ReadableStream),
+                    })
+                ),
+                submissionsOpen: z.optional(z.date()),
+                submissionsClose: z.optional(z.date()),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const { id, title, description, file, submissionsOpen, submissionsClose } = input;
+            try {
+                let fileUrl: string | undefined = undefined;
+                if (file) {
+                    // upload to r2
+                    await ctx.r2.send(
+                        new PutObjectCommand({
+                            Bucket: "qweb",
+                            Key: file.name,
+                            Body: file.body,
+                        })
+                    );
+
+                    // expires in one year
+                    fileUrl = await getSignedUrl(
+                        ctx.r2,
+                        new GetObjectCommand({
+                            Bucket: "qweb",
+                            Key: file.name,
+                        }),
+                        { expiresIn: 31536000 }
+                    );
+                }
+
+                return await ctx.prisma.event.upsert({
+                    where: {
+                        id,
+                    },
+                    create: {
+                        title,
+                        description,
+                        fileUrl,
+                        submissionsOpen,
+                        submissionsClose,
+                    },
+                    update: {
+                        title,
+                        description,
+                        fileUrl,
+                        submissionsOpen,
+                        submissionsClose,
+                    },
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }),
 });
