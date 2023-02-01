@@ -57,17 +57,20 @@ const AdminPanel: NextPage = () => {
                         e.preventDefault();
                         console.log("button pressed");
                         upsertEvent.mutate({
-                            id: "cldkm0xnl0006vv74eqrt9xhp",
+                            id,
                             title,
                             description,
                             submissionsOpen,
                             submissionsClose,
-                            file: file ? (() => {
-                                return {
-                                    name :"hello",
-                                    body: file.stream(),
-                                }
-                            })() : undefined,
+                            file: file
+                                ? (() => {
+                                    console.log(file);
+                                      return {
+                                          name: file.name,
+                                          body: file.stream(),
+                                      };
+                                  })()
+                                : undefined,
                         });
                     }}
                 >
@@ -182,9 +185,12 @@ const AdminPanel: NextPage = () => {
                                                         className="sr-only"
                                                         onChange={(event) => {
                                                             // check if files are null
+                                                            console.log("in here");
                                                             if (event.target.files != undefined) {
-                                                                const file = event.target.files[-1];
+                                                                console.log(event.target.files);
+                                                                const file = event.target.files[0];
                                                                 // set the file
+                                                                console.log(file);
                                                                 setFile(file);
                                                             }
                                                             // get the first file
@@ -297,9 +303,11 @@ const AdminPanel: NextPage = () => {
                                                 Current Judges
                                             </label>
                                         </div>
-                                        {judges.map((person) => <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
-                                            {person.name}
-                                        </div>)}
+                                        {judges.map((person) => (
+                                            <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
+                                                {person.name}
+                                            </div>
+                                        ))}
                                     </Combobox>
                                 </div>
                             </div>

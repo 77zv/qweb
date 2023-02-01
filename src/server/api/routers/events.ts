@@ -148,6 +148,7 @@ export const eventRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const { id, title, description, file, submissionsOpen, submissionsClose } = input;
+            console.log(input);
             try {
                 let fileUrl: string | undefined = undefined;
                 if (file) {
