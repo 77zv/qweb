@@ -328,10 +328,11 @@ const AdminPanel: NextPage = () => {
                                             </label>
                                         </div>
                                         {persons.map((person) => (
+                                          person.role === "judge" && (
                                             <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
                                                 {person.name}
                                             </div>
-                                        ))}
+                                          )))}
                                     </Combobox>
                                 </div>
                             </div>
