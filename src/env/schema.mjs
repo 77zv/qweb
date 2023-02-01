@@ -40,7 +40,7 @@ export const serverEnv = {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
     S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
-    S3_SECRET_ACCESS_KEY: process.env.S3_ACCESS_KEY_SECRET
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY
 };
 
 /**
