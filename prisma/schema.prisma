@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/npprisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
   engineType = "binary"
 }
 
@@ -45,7 +45,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
@@ -65,6 +65,7 @@ model Event {
   id               String    @id @default(cuid())
   title            String
   description      String
+  fileUrl          String    @default("google.com") // r2 public string lol, google for now so i can push without breaking
   submissionsOpen  DateTime?
   submissionsClose DateTime?
   createdAt        DateTime  @default(now())
