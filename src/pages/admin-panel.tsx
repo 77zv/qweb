@@ -36,7 +36,10 @@ const AdminPanel: NextPage = () => {
             setSubmissionsOpen(event.submissionsOpen!);
             setSubmissionsClose(event.submissionsClose!);
         }
-    }, [isLoadingEvent]);
+        if (users) {
+            setPersons(users);
+        }
+    }, [isLoadingEvent, isLoadingUsers]);
 
 
     return (
@@ -67,7 +70,7 @@ const AdminPanel: NextPage = () => {
                                 });
                             });
                         } else {
-                            // check if id is undefined
+                            // we gotta make the event for the first time
                             createEvent.mutate({
                                 title,
                                 description,
