@@ -39,7 +39,7 @@ const AdminPanel: NextPage = () => {
             setFileUrl(event.fileUrl);
         }
         if (users) {
-            setPersons(users);
+            setPersons(users.filter((user) => user.role === "judge"));
         }
     }, [isLoadingEvent, isLoadingUsers]);
 
@@ -72,7 +72,7 @@ const AdminPanel: NextPage = () => {
                             });
                             // loop through persons and update their role
                             persons.forEach((person) => {
-                                console.log(person.id);
+                                //console.log(person.id);
                                 updateRole.mutate({
                                     id: person.id,
                                     role: "judge",
@@ -327,12 +327,9 @@ const AdminPanel: NextPage = () => {
                                                 Current Judges
                                             </label>
                                         </div>
-                                        {persons.map((person) => (
-                                          person.role === "judge" && (
-                                            <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
-                                                {person.name}
-                                            </div>
-                                          )))}
+                                        {persons.map((person) => <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
+                                            {person.name}
+                                        </div>)}
                                     </Combobox>
                                 </div>
                             </div>
