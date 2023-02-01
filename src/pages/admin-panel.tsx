@@ -52,28 +52,21 @@ const AdminPanel: NextPage = () => {
                     className="space-y-8 divide-y divide-gray-200"
                     onSubmit={async (e) => {
                         e.preventDefault();
-
                         // check if event is not undefined which means
                         // there is already an event and we dont have to create one,
-                        // prob will never occur
+                        // more likely to occur
                         if (event) {
+                            // only update file if a new one has been uploaded
+                            console.log("updating event");
+                            console.log(file);
                             updateEvent.mutate({
                                 id: event.id,
                                 title,
-                                file: (() => {
-                                    if (file != undefined) {
-                                        return {
-                                            name: file.name,
-                                            body: file.stream(),
-                                        };
-                                    }
-
-                                    return {
-                                        name: "ya",
-                                        body: new ReadableStream(),
-                                    };
-                                })(),
                                 description,
+                                file: {
+                                    name: file?.name!,
+                                    body: file?.stream()!,
+                                },
                                 submissionsOpen,
                                 submissionsClose,
                             });
@@ -86,6 +79,7 @@ const AdminPanel: NextPage = () => {
                                 });
                             });
                         } else {
+                            console.log("creating event");
                             // we gotta make the event for the first time
                             createEvent.mutate({
                                 title,
