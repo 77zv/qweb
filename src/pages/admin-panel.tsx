@@ -56,9 +56,6 @@ const AdminPanel: NextPage = () => {
                     className="space-y-8 divide-y divide-gray-200"
                     onSubmit={async (e) => {
                         e.preventDefault();
-                        console.log("button pressed");
-
-
                         upsertEvent.mutate({
                             id,
                             title,
@@ -67,7 +64,6 @@ const AdminPanel: NextPage = () => {
                             submissionsClose,
                             file: file
                                 ? await (async () => {
-                                    console.log(file);
                                       return {
                                           name: file.name,
                                           body: await file.text(),
@@ -187,15 +183,11 @@ const AdminPanel: NextPage = () => {
                                                         className="sr-only"
                                                         onChange={(event) => {
                                                             // check if files are null
-                                                            console.log("in here");
                                                             if (event.target.files != undefined) {
-                                                                console.log(event.target.files);
                                                                 const file = event.target.files[0];
                                                                 // set the file
-                                                                console.log(file);
                                                                 setFile(file);
                                                             }
-                                                            // get the first file
                                                         }}
                                                     />
                                                 </label>
