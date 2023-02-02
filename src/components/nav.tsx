@@ -25,18 +25,6 @@ const resources = [
 
 const adminResources = [
     {
-        name: "contact-us",
-        description: "Having an issue? contact our support team.",
-        href: "contact-us",
-        icon: LifebuoyIcon
-    },
-    {
-        name: "Learn More",
-        description: "Learn more about the Global Brigade program.",
-        href: "https://business.globalbrigades.org/",
-        icon: CalendarIcon
-    },
-    {
         name: "Judges Panel", description: "Judges can access submissions here.",
         href: "judges-panel",
         icon: ClipboardIcon
@@ -48,13 +36,7 @@ const adminResources = [
     }
 ];
 
-const JudgeResources = [
-    {
-        name: "Contact-Us",
-        description: "Having an issue? contact our support team.",
-        href: "contact-us",
-        icon: LifebuoyIcon
-    },
+const judgeResources = [
     {
         name: "Judges Panel", description: "Judges can access submissions here.",
         href: "judges-panel",
@@ -131,53 +113,25 @@ const NavBar = () => {
                                                 className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                                                 <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                                                     {
-                                                        sessionData?.user?.role === "admin" ? adminResources.map((item) => (
-                                                            <Link
-                                                                key={item.name}
-                                                                href={item.href}
-                                                                className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                                            >
-                                                                <item.icon
-                                                                    className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                                    aria-hidden="true"/>
-                                                                <div className="ml-4">
-                                                                    <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                    <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                                </div>
-                                                            </Link>
-                                                        )) : (
-                                                            sessionData?.user?.role === "judge" ? JudgeResources.map((item) => (
-                                                                <Link
-                                                                    key={item.name}
-                                                                    href={item.href}
-                                                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                                                >
-                                                                    <item.icon
-                                                                        className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                                        aria-hidden="true"/>
-                                                                    <div className="ml-4">
-                                                                        <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                                    </div>
-                                                                </Link>
-                                                            )) : (
-                                                                resources.map((item) => (
-                                                                    <Link
-                                                                        key={item.name}
-                                                                        href={item.href}
-                                                                        className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                                                    >
-                                                                        <item.icon
-                                                                            className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                                            aria-hidden="true"/>
-                                                                        <div className="ml-4">
-                                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                                        </div>
-                                                                    </Link>
-                                                                ))))
+                                                        [
+                                                            ...resources,
+                                                            ...(sessionData?.user?.role === "judge" ? judgeResources : []),
+                                                            ...(sessionData?.user?.role === "admin" ? adminResources : []),
+                                                        ].map(item => (
+                                                          <Link
+                                                            key={item.name}
+                                                            href={item.href}
+                                                            className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
+                                                          >
+                                                              <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600"
+                                                                         aria-hidden="true"/>
+                                                              <div className="ml-4">
+                                                                  <p className="text-base font-medium text-gray-900">{item.name}</p>
+                                                                  <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                                              </div>
+                                                          </Link>
+                                                        ))
                                                     }
-                                                    {/*ADD JUDGES STUFF HERE*/}
                                                 </div>
                                             </div>
                                         </Popover.Panel>
@@ -245,49 +199,24 @@ const NavBar = () => {
                         <div className="space-y-6 py-6 px-5">
                             <div className="grid grid-cols-2 gap-y-4 gap-x-8">
                                 {
-                                    sessionData?.user?.role === "admin" ? adminResources.map((item) => (
-                                        <Link
-                                            key={item.name}
-                                            href={item.href}
-                                            className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                        >
-                                            <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                       aria-hidden="true"/>
-                                            <div className="ml-4">
-                                                <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                            </div>
-                                        </Link>
-                                    )) : (
-                                        sessionData?.user?.role === "judge" ? JudgeResources.map((item) => (
-                                            resources.map((item) => (
-                                                <Link
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                                >
-                                                    <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                               aria-hidden="true"/>
-                                                    <div className="ml-4">
-                                                        <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                    </div>
-                                                </Link>
-                                            )))) : (
-                                            resources.map((item) => (
-                                                <Link
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                                                >
-                                                    <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600"
-                                                               aria-hidden="true"/>
-                                                    <div className="ml-4">
-                                                        <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))))
+                                    [
+                                      ...resources,
+                                      ...(sessionData?.user?.role === "judge" ? judgeResources : []),
+                                      ...(sessionData?.user?.role === "admin" ? adminResources : []),
+                                    ].map(item => (
+                                      <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
+                                      >
+                                          <item.icon className="h-6 w-6 flex-shrink-0 text-indigo-600"
+                                                     aria-hidden="true"/>
+                                          <div className="ml-4">
+                                              <p className="text-base font-medium text-gray-900">{item.name}</p>
+                                              <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                          </div>
+                                      </Link>
+                                    ))
                                 }
                             </div>
                         </div>
