@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
 import { api } from "../utils/api";
+import Link from "next/link";
 
 interface Person {
     id: string;
@@ -20,11 +21,13 @@ const AdminPanel: NextPage = () => {
     const updateRole = api.users.updateUserRole.useMutation();
     const updateEvent = api.events.updateEvent.useMutation();
     const createEvent = api.events.createEvent.useMutation();
+    const upsertEvent = api.events.upsertEvent.useMutation();
 
     const [title, setTitle] = useState("");
+    const [id, setId] = useState("");
     const [description, setDescription] = useState("");
     const [selectedPerson, setSelectedPerson] = useState<Person | string>("");
-    const [persons, setPersons] = useState<Person[]>([]);
+    const [judges, setJudges] = useState<Person[]>([]);
     const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>(undefined);
     const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>(undefined);
     const [file, setFile] = useState<File | undefined>(undefined);
@@ -32,6 +35,7 @@ const AdminPanel: NextPage = () => {
 
     useEffect(() => {
         if (event) {
+            setId(event.id);
             setTitle(event.title);
             setDescription(event.description);
             setSubmissionsOpen(event.submissionsOpen!);
@@ -39,7 +43,7 @@ const AdminPanel: NextPage = () => {
             setFileUrl(event.fileUrl);
         }
         if (users) {
-            setPersons(users.filter((user) => user.role === "judge"));
+            setJudges(users.filter((user) => user.role === "judge"));
         }
     }, [isLoadingEvent, isLoadingUsers]);
 
@@ -52,53 +56,21 @@ const AdminPanel: NextPage = () => {
                     className="space-y-8 divide-y divide-gray-200"
                     onSubmit={async (e) => {
                         e.preventDefault();
-                        // check if event is not undefined which means
-                        // there is already an event and we dont have to create one,
-                        // more likely to occur
-                        if (event) {
-                            // only update file if a new one has been uploaded
-                            console.log("updating event");
-                            console.log(file);
-                            updateEvent.mutate({
-                                id: event.id,
-                                title,
-                                description,
-                                file: {
-                                    name: file?.name!,
-                                    body: file?.stream()!,
-                                },
-                                submissionsOpen,
-                                submissionsClose,
-                            });
-                            // loop through persons and update their role
-                            persons.forEach((person) => {
-                                //console.log(person.id);
-                                updateRole.mutate({
-                                    id: person.id,
-                                    role: "judge",
-                                });
-                            });
-                        } else {
-                            console.log("creating event");
-                            // we gotta make the event for the first time
-                            createEvent.mutate({
-                                title,
-                                description,
-                                file: {
-                                    name: file?.name!,
-                                    body: await file?.stream()!,
-                                },
-                                submissionsOpen,
-                                submissionsClose,
-                            });
-                            // map through persons and update role
-                            persons.forEach((person) => {
-                                updateRole.mutate({
-                                    id: person.id,
-                                    role: person.role,
-                                });
-                            });
-                        }
+                        upsertEvent.mutate({
+                            id,
+                            title,
+                            description,
+                            submissionsOpen,
+                            submissionsClose,
+                            file: file
+                                ? await (async () => {
+                                      return {
+                                          name: file.name,
+                                          body: await file.text(),
+                                      };
+                                  })()
+                                : undefined,
+                        });
                     }}
                 >
                     <div className="space-y-8 divide-y divide-gray-200">
@@ -141,7 +113,6 @@ const AdminPanel: NextPage = () => {
                                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    <p className="mt-2 text-sm text-gray-500">Write a description for the event.</p>
                                 </div>
 
                                 {/*date stuff*/}
@@ -213,17 +184,17 @@ const AdminPanel: NextPage = () => {
                                                         onChange={(event) => {
                                                             // check if files are null
                                                             if (event.target.files != undefined) {
-                                                                const file = event.target.files[-1];
+                                                                const file = event.target.files[0];
                                                                 // set the file
                                                                 setFile(file);
                                                             }
-                                                            // get the first file
                                                         }}
                                                     />
                                                 </label>
-                                                <p className="pl-1">or drag and drop</p>
                                             </div>
-                                            <p className="text-xs text-gray-500">PDF</p>
+                                            <p className="text-xs text-gray-500">
+                                                {fileUrl ? <a href={fileUrl} target="_blank">Current File</a> : "Upload File" }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -306,11 +277,11 @@ const AdminPanel: NextPage = () => {
                                                         const selectedUser = users?.find(
                                                             (user) => user.name === selectedPerson.name
                                                         );
-                                                        const personExists = persons.find(
+                                                        const personExists = judges.find(
                                                             (person) => person.id === selectedUser?.id
                                                         );
                                                         if (selectedUser != undefined && !personExists) {
-                                                            setPersons([...persons, selectedUser]);
+                                                            setJudges([...judges, selectedUser]);
                                                             setSelectedPerson("");
                                                         }
                                                     }
@@ -327,9 +298,11 @@ const AdminPanel: NextPage = () => {
                                                 Current Judges
                                             </label>
                                         </div>
-                                        {persons.map((person) => <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
-                                            {person.name}
-                                        </div>)}
+                                        {judges.map((person) => (
+                                            <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
+                                                {person.name}
+                                            </div>
+                                        ))}
                                     </Combobox>
                                 </div>
                             </div>
