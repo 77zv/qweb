@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
 import { api } from "../utils/api";
+import Link from "next/link";
 
 interface Person {
     id: string;
@@ -197,9 +198,10 @@ const AdminPanel: NextPage = () => {
                                                         }}
                                                     />
                                                 </label>
-                                                <p className="pl-1">or drag and drop</p>
                                             </div>
-                                            <p className="text-xs text-gray-500">PDF</p>
+                                            <p className="text-xs text-gray-500">
+                                                {fileUrl ? <a href={fileUrl} target="_blank">Current File</a> : "Upload File" }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
