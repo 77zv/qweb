@@ -5,7 +5,6 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
 import { api } from "../utils/api";
-import Link from "next/link";
 
 interface Person {
     id: string;
