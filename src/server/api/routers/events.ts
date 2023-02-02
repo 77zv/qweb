@@ -2,6 +2,7 @@ import { z } from "zod";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { env } from "../../../env/server.mjs";
 
 export const eventRouter = createTRPCRouter({
     getEvent: publicProcedure.query(async ({ ctx }) => {
@@ -160,17 +161,7 @@ export const eventRouter = createTRPCRouter({
                         })
                     );
 
-                    fileUrl = "https://pub-e2861b18aa0e43d58b129a8eb507d1f5.r2.dev/" + file.name;
-
-                    /*                  // expires in one year
-                            fileUrl = await getSignedUrl(
-                                ctx.r2,
-                                new GetObjectCommand({
-                                    Bucket: "qweb",
-                                    Key: file.name,
-                                }),
-                                { expiresIn: 60000 }
-                            );*/
+                    fileUrl = env.S3_PUBLIC_URL + file.name;
                 }
 
                 return await ctx.prisma.event.upsert({
