@@ -57,6 +57,8 @@ const AdminPanel: NextPage = () => {
                     onSubmit={async (e) => {
                         e.preventDefault();
                         console.log("button pressed");
+
+
                         upsertEvent.mutate({
                             id,
                             title,
@@ -64,11 +66,11 @@ const AdminPanel: NextPage = () => {
                             submissionsOpen,
                             submissionsClose,
                             file: file
-                                ? (() => {
+                                ? await (async () => {
                                     console.log(file);
                                       return {
                                           name: file.name,
-                                          body: file.stream(),
+                                          body: await file.text(),
                                       };
                                   })()
                                 : undefined,
@@ -115,7 +117,6 @@ const AdminPanel: NextPage = () => {
                                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    <p className="mt-2 text-sm text-gray-500">Write a description for the event.</p>
                                 </div>
 
                                 {/*date stuff*/}

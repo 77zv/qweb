@@ -139,7 +139,7 @@ export const eventRouter = createTRPCRouter({
                 file: z.optional(
                     z.object({
                         name: z.string(),
-                        body: z.instanceof(ReadableStream),
+                        body: z.string(),
                     })
                 ),
                 submissionsOpen: z.optional(z.date()),
@@ -161,15 +161,17 @@ export const eventRouter = createTRPCRouter({
                         })
                     );
 
-                    // expires in one year
-                    fileUrl = await getSignedUrl(
-                        ctx.r2,
-                        new GetObjectCommand({
-                            Bucket: "qweb",
-                            Key: file.name,
-                        }),
-                        { expiresIn: 31536000 }
-                    );
+                    fileUrl = "https://pub-e2861b18aa0e43d58b129a8eb507d1f5.r2.dev/" + file.name;
+
+                    /*                  // expires in one year
+                            fileUrl = await getSignedUrl(
+                                ctx.r2,
+                                new GetObjectCommand({
+                                    Bucket: "qweb",
+                                    Key: file.name,
+                                }),
+                                { expiresIn: 60000 }
+                            );*/
                 }
 
                 return await ctx.prisma.event.upsert({
