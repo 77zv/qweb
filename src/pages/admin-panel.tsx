@@ -18,8 +18,6 @@ const AdminPanel: NextPage = () => {
     const { data: users, isLoading: isLoadingUsers } = api.users.getUsers.useQuery();
 
     const updateRole = api.users.updateUserRole.useMutation();
-    const updateEvent = api.events.updateEvent.useMutation();
-    const createEvent = api.events.createEvent.useMutation();
     const upsertEvent = api.events.upsertEvent.useMutation();
 
     const [title, setTitle] = useState("");
@@ -69,6 +67,10 @@ const AdminPanel: NextPage = () => {
                                       };
                                   })()
                                 : undefined,
+                        });
+
+                        judges.map((judge) => {
+                            updateRole.mutate({ id: judge.id, role: "judge" });
                         });
                     }}
                 >
@@ -198,6 +200,7 @@ const AdminPanel: NextPage = () => {
                                     </div>
                                 </div>
 
+                                {/*judge stuff*/}
                                 <div className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:col-span-4 sm:text-sm">
                                     <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
                                         <Combobox.Label className=" block text-sm font-medium text-gray-700">
