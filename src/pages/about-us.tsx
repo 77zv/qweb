@@ -65,8 +65,8 @@ export default function Example() {
                                 role="list"
                                 className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-8"
                             >
-                                {people.map((person, index) => (
-                                    <li key={person.name} className={index === people.length - 1 && people.length % 2 !== 0 ? "lg:justify-center" : ""}>
+                                {people.map((person) => (
+                                    <li key={person.name}>
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-2">
                                                 <img className="rounded-lg object-cover shadow-lg h-64 w-64" src={person.imageUrl}
