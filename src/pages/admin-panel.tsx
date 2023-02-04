@@ -35,14 +35,14 @@ const AdminPanel: NextPage = () => {
             setId(event.id);
             setTitle(event.title);
             setDescription(event.description);
-            setSubmissionsOpen(event.submissionsOpen!);
-            setSubmissionsClose(event.submissionsClose!);
+            setSubmissionsOpen(event.submissionsOpen ? event.submissionsOpen : undefined);
+            setSubmissionsClose(event.submissionsClose ? event.submissionsClose : undefined);
             setFileUrl(event.fileUrl);
         }
         if (users) {
             setJudges(users.filter((user) => user.role === "judge"));
         }
-    }, [isLoadingEvent, isLoadingUsers]);
+    }, [event, isLoadingEvent, isLoadingUsers, users]);
 
     return (
         <Layout>
@@ -51,8 +51,7 @@ const AdminPanel: NextPage = () => {
                 {/*⚠️⚠️⚠️⚠️ THE MARGIN ABOVE BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
                 <form
                     className="space-y-8 divide-y divide-gray-200"
-                    onSubmit={async (e) => {
-                        e.preventDefault();
+                    onSubmit={void (async () => {
                         upsertEvent.mutate({
                             id,
                             title,
@@ -68,11 +67,11 @@ const AdminPanel: NextPage = () => {
                                   })()
                                 : undefined,
                         });
-
                         judges.map((judge) => {
                             updateRole.mutate({ id: judge.id, role: "judge" });
                         });
-                    }}
+                    }
+                    )}
                 >
                     <div className="space-y-8 divide-y divide-gray-200">
                         <div>
@@ -195,7 +194,7 @@ const AdminPanel: NextPage = () => {
                                                 </label>
                                             </div>
                                             <p className="text-xs text-gray-500">
-                                                {fileUrl ? <a href={fileUrl} target="_blank">Current File</a> : "Upload File" }
+                                                {fileUrl ? <a href={fileUrl} target="_blank" rel="noreferrer">Current File</a> : "Upload File" }
                                             </p>
                                         </div>
                                     </div>
