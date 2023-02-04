@@ -30,6 +30,7 @@ const AdminPanel: NextPage = () => {
     const [file, setFile] = useState<File | undefined>(undefined);
     const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
+    
     useEffect(() => {
         if (event) {
             setId(event.id);
@@ -51,7 +52,8 @@ const AdminPanel: NextPage = () => {
                 {/*⚠️⚠️⚠️⚠️ THE MARGIN ABOVE BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
                 <form
                     className="space-y-8 divide-y divide-gray-200"
-                    onSubmit={void (async () => {
+                    onSubmit={async (e: React.FormEvent)=> {
+                        e.preventDefault();
                         upsertEvent.mutate({
                             id,
                             title,
@@ -67,11 +69,13 @@ const AdminPanel: NextPage = () => {
                                   })()
                                 : undefined,
                         });
+
                         judges.map((judge) => {
                             updateRole.mutate({ id: judge.id, role: "judge" });
                         });
+
                     }
-                    )}
+                    }
                 >
                     <div className="space-y-8 divide-y divide-gray-200">
                         <div>
