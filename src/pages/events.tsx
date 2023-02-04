@@ -1,39 +1,54 @@
-/* This example requires Tailwind CSS v2.0+ */
 import {PaperClipIcon} from '@heroicons/react/20/solid'
 import Layout from "../components/layout";
+import { api } from "../utils/api";
+import { useEffect, useState } from "react";
 
 //only change dropbox and not event box
 
 export default function Example() {
+    const { data: event, isLoading: isLoadingEvent } = api.events.getEvent.useQuery();
+
+    const [title, setTitle] = useState("");
+    const [id, setId] = useState("");
+    const [description, setDescription] = useState("");
+    const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>(undefined);
+    const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>(undefined);
+    const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        if (event) {
+            setId(event.id);
+            setTitle(event.title);
+            setDescription(event.description);
+            setSubmissionsOpen(event.submissionsOpen!);
+            setSubmissionsClose(event.submissionsClose!);
+            setFileUrl(event.fileUrl);
+        }
+    }, [isLoadingEvent]);
+
+
     return (
         <Layout>
             <div>
                 <div className="m-10 border-2">
                     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
                         <div className="px-4 py-5 sm:px-6">
-                            <h3 className="text-lg font-medium leading-6 text-gray-900">Stock Picking Competition 2023</h3>
-                            <p className="mt-1 max-w-2xl text-sm text-gray-500">Showcase your skills and win big prizes!</p>
+                            <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>
                         </div>
                         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
                             <dl className="sm:divide-y sm:divide-gray-200">
                                 <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Start Date</dt>
-                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">March 1st, 2023</dd>
+                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{submissionsOpen?.toLocaleDateString()} - {submissionsOpen?.toLocaleTimeString()}</dd>
                                 </div>
                                 <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">End Date</dt>
-                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">May 31st, 2023</dd>
+                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{submissionsClose?.toLocaleDateString()} - {submissionsClose?.toLocaleTimeString()}</dd>
                                 </div>
                                 <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Description</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                                        Are you an expert in stock picking? Join our Stock Picking Competition 2023 and put your
-                                        skills to the test. Compete against other investors and traders from all over the world to
-                                        see who can make the most profit in three months.
-
-                                        Participants must pick a portfolio of five stocks and track their performance until the end of
-                                        the competition. Prizes will be awarded to the top three performers with the highest returns. So,
-                                        what are you waiting for? Sign up now and show the world your stock picking prowess!
+                                        {description}
                                     </dd>
                                 </div>
                                 <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
@@ -46,10 +61,10 @@ export default function Example() {
                                                     <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400"
                                                                    aria-hidden="true"/>
                                                     <span
-                                                        className="ml-2 w-0 flex-1 truncate">event_package_one.zip</span>
+                                                        className="ml-2 w-0 flex-1 truncate">{fileUrl?.substring(fileUrl?.lastIndexOf('/') + 1)}</span>
                                                 </div>
                                                 <div className="ml-4 flex-shrink-0">
-                                                    <a href="#"
+                                                    <a href={fileUrl}
                                                        className="font-medium text-indigo-600 hover:text-indigo-500">
                                                         Download
                                                     </a>
