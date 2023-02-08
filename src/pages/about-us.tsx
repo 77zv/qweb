@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from "../components/layout";
 import Team from "../components/about-us-comp/team";
-import Judges from "./judges";
+import Judges from "../components/about-us-comp/judges";
 
 
 

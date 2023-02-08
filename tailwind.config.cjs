@@ -8,6 +8,9 @@ module.exports = {
       colors: {
         rose: colors.rose,
       },
+      backgroundImage: {
+        'hero': "url('/public/hero.svg')",
+      }
     },
   },
   plugins: [
