@@ -62,7 +62,7 @@ export default function Team() {
                     >
                         {people.map((person) => (
                             <li key={person.name}>
-                                <div className="space-y-4">
+                                <div className="space-y-10">
                                     <div className="aspect-w-3 aspect-h-2">
                                         <img className="rounded-lg object-cover shadow-lg h-72 w-72" src={person.imageUrl} alt="" />
                                     </div>
