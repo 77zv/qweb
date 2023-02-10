@@ -43,14 +43,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String       @unique
   emailVerified DateTime?
   image         String?
-  role          String    @default("user")
+  role          String       @default("user")
   accounts      Account[]
   sessions      Session[]
+  submissions   Submission[]
+  reviews       Review[]
 }
 
 model VerificationToken {
@@ -62,12 +64,35 @@ model VerificationToken {
 }
 
 model Event {
-  id               String    @id @default(cuid())
+  id               String       @id @default(cuid())
   title            String
   description      String
-  fileUrl          String    @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  fileUrl          String       @default("google.com") // r2 public string lol, google for now so i can push without breaking
   submissionsOpen  DateTime?
   submissionsClose DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  submissions      Submission[]
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  fileUrl     String   @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  submittedAt DateTime @default(now())
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId     String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  reviews     Review[]
+}
+
+model Review {
+  id           String     @id @default(cuid())
+  submittedAt  DateTime   @default(now())
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submissionId String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  score        Int?
+  comment      String?
 }
