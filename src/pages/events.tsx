@@ -2,6 +2,7 @@ import {PaperClipIcon} from '@heroicons/react/20/solid'
 import Layout from "../components/layout";
 import { api } from "../utils/api";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 //only change dropbox and not event box
 
@@ -26,6 +27,7 @@ export default function Example() {
         }
     }, [isLoadingEvent]);
 
+    const {data: sessionData} = useSession();
 
     return (
         <Layout>
@@ -77,7 +79,7 @@ export default function Example() {
                         </div>
                     </div>
                 </div>
-                <SubmissionDropbox/>
+                {sessionData && <SubmissionDropbox/>}
             </div>
         </Layout>
     )

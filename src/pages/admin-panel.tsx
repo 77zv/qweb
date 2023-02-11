@@ -16,9 +16,25 @@ interface Person {
 const AdminPanel: NextPage = () => {
     const { data: event, isLoading: isLoadingEvent } = api.events.getEvent.useQuery();
     const { data: users, isLoading: isLoadingUsers } = api.users.getUsers.useQuery();
+    const ctx = api.useContext();
 
     const updateRole = api.users.updateUserRole.useMutation();
-    const upsertEvent = api.events.upsertEvent.useMutation();
+    const upsertEvent = api.events.upsertEvent.useMutation({
+        onMutate: async() => {
+            await ctx.events.getEvent.cancel();
+            const previousEvent = ctx.events.getEvent.getData();
+
+            ctx.events.getEvent.setData(undefined, previousEvent);
+
+            return {previousEvent}
+        },
+        onError: (err, newEvent, context) => {
+            ctx.events.getEvent.setData(undefined, context?.previousEvent);
+        },
+        onSettled: async () => {
+            void await ctx.events.getEvent.invalidate();
+        }
+    });
 
     const [title, setTitle] = useState("");
     const [id, setId] = useState("");
