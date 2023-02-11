@@ -241,7 +241,13 @@ const AdminPanel: NextPage = () => {
 
                                             {users != undefined && users.length > 0 && (
                                                 <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                    {users.map((user) => (
+                                                    {users.sort((a, b) => {
+                                                        if (a.name < b.name) return -1;
+                                                        if (a.name > b.name) return 1;
+                                                        return 0;
+                                                    })
+                                                      .filter(user => user.role != "judge")
+                                                      .map((user) => (
                                                         <Combobox.Option
                                                             key={user.id}
                                                             value={user}
