@@ -114,15 +114,9 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     });
 });
 
-const enforceUserRole = (roleName: string, roleName2?: string) => t.middleware(({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
+const enforceUserRole = (...roles: string[]) => t.middleware(({ ctx, next }) => {
+    if (!ctx.session || !ctx.session.user || !roles.includes(ctx.session.user.role)) {
         throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    if (ctx.session.user.role !== roleName) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    if (roleName2 && ctx.session.user.role !== roleName2) {
-            throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
         ctx: {
