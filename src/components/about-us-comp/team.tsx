@@ -43,6 +43,42 @@ const people = [
             'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578974871603/image_2023-02-04_153213285.jpg',
         twitterUrl: 'https://twitter.com/jazzjohnson',
     },
+
+    {
+        name: 'Charlotte Klajman',
+        role: 'Co-Chair',
+        imageUrl:
+          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578781929472/image.jpg',
+        twitterUrl: 'https://twitter.com/aidonmccomb',
+    },
+    {
+        name: 'Jazlyn McGuinty',
+        role: 'Co-Chair',
+        imageUrl:
+          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578131812362/image_1.jpg',
+        twitterUrl: 'https://twitter.com/jazzjohnson',
+    },
+    {
+        name: 'Aiofe Hamilton',
+        role: 'Education Co-Director',
+        imageUrl:
+          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578349920378/image_2.jpg',
+        twitterUrl: 'https://twitter.com/jazzjohnson',
+    },
+    {
+        name: 'Will Wu',
+        role: 'Education Co-Director',
+        imageUrl:
+          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578572222484/image_3.jpg',
+        twitterUrl: 'https://twitter.com/jazzjohnson',
+    },
+    {
+        name: 'Ava Slotman',
+        role: 'Chapter Advisor',
+        imageUrl:
+          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578974871603/image_2023-02-04_153213285.jpg',
+        twitterUrl: 'https://twitter.com/jazzjohnson',
+    },
 ]
 
 export default function Team() {
