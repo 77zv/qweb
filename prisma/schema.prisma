@@ -68,8 +68,8 @@ model Event {
   title            String
   description      String
   fileUrl          String       @default("google.com") // r2 public string lol, google for now so i can push without breaking
-  submissionsOpen  DateTime?
-  submissionsClose DateTime?
+  submissionsOpen  DateTime
+  submissionsClose DateTime
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   submissions      Submission[]
@@ -93,6 +93,6 @@ model Review {
   submissionId String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
-  score        Int?
+  score        Int        @default(0)
   comment      String?
 }
