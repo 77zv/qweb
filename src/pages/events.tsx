@@ -87,6 +87,12 @@ export default function Example() {
     );
 }
 const SubmissionDropbox = () => {
+    const [file, setFile] = useState<File | undefined>(undefined);
+
+    const submitSolution = api.submissions.submitSolution.useMutation();
+    const { data: sessionData } = useSession();
+    const { data: eventData} = api.events.getEvent.useQuery();
+
     return (
       <div className="m-10 border-2">
           <div className="overflow-hidden bg-white sm:rounded-lg">
@@ -119,7 +125,29 @@ const SubmissionDropbox = () => {
                             className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
                               <span>Upload a file</span>
-                              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                              <input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only"
+                                onChange={async (e) => {
+                                    setFile(e.target.files?.[-1]);
+                                    if (file != undefined && eventData) {
+                                        submitSolution.mutate({
+                                            eventId: eventData.id,
+                                            userId: sessionData?.user?.id as string,
+                                            file: file
+                                              ? await (async () => {
+                                                  return {
+                                                      name: file.name,
+                                                      body: await file.text()
+                                                  };
+                                              })()
+                                              : undefined
+                                        });
+                                    }
+                                }}
+                              />
                           </label>
                           <p className="pl-1">or drag and drop</p>
                       </div>

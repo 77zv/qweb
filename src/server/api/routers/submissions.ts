@@ -12,14 +12,13 @@ export const submissionsRouter = createTRPCRouter({
             console.log(error);
         }
     }),
-    postSubmission: protectedProcedure.input(z.object({
+    submitSolution: protectedProcedure.input(z.object({
         eventId: z.string(),
         userId: z.string(),
-        file: z.object({
+        file: z.optional(z.object({
             name: z.string(),
             body: z.string()
-        })
-
+        }))
     }))
       .mutation(async ({ ctx, input }) => {
           const { eventId, userId, file } = input;
@@ -34,6 +33,16 @@ export const submissionsRouter = createTRPCRouter({
               );
 
               const fileUrl = env.S3_PUBLIC_URL + file.name;
+
+              // check if user exists
+              const user = await ctx.prisma.user.findUnique({
+                  where: {
+                      id: userId
+                  }
+              });
+              if (!user) {
+                  throw new Error("User not found");
+              }
 
               return await ctx.prisma.submission.create({
                   data: {

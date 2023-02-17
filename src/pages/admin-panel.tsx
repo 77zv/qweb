@@ -206,9 +206,7 @@ const AdminPanel: NextPage = () => {
                                                     onChange={(event) => {
                                                         // check if files are null
                                                         if (event.target.files != undefined) {
-                                                            const file = event.target.files[0];
-                                                            // set the file
-                                                            setFile(file);
+                                                            setFile(event.target.files[-1]);
                                                         }
                                                     }}
                                                   />
