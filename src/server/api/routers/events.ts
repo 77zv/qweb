@@ -38,6 +38,7 @@ export const eventRouter = createTRPCRouter({
                             Bucket: "qweb",
                             Key: file.name,
                             Body: file.body,
+                            ContentType: "application/pdf"
                         })
                     );
 

@@ -131,8 +131,10 @@ const SubmissionDropbox = () => {
                                 type="file"
                                 className="sr-only"
                                 onChange={async (e) => {
-                                    setFile(e.target.files?.[-1]);
+                                    console.log("in this sh it")
+                                    setFile(e.target.files?.[0]);
                                     if (file != undefined && eventData) {
+                                        console.log('shits not undefined')
                                         submitSolution.mutate({
                                             eventId: eventData.id,
                                             userId: sessionData?.user?.id as string,
@@ -146,6 +148,7 @@ const SubmissionDropbox = () => {
                                               : undefined
                                         });
                                     }
+                                    console.log('shits done or something idfk')
                                 }}
                               />
                           </label>

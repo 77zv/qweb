@@ -22,17 +22,22 @@ export const submissionsRouter = createTRPCRouter({
     }))
       .mutation(async ({ ctx, input }) => {
           const { eventId, userId, file } = input;
+          let fileUrl: string | undefined = undefined;
           try {
-              // upload to r2
-              await ctx.r2.send(
-                new PutObjectCommand({
-                    Bucket: "qweb",
-                    Key: file.name,
-                    Body: file.body
-                })
-              );
+              if (file) {
 
-              const fileUrl = env.S3_PUBLIC_URL + file.name;
+                  // upload to r2
+                  await ctx.r2.send(
+                    new PutObjectCommand({
+                        Bucket: "qweb",
+                        Key: file.name,
+                        Body: file.body,
+                        ContentType: "application/pdf"
+                    })
+                  );
+
+                  fileUrl = env.S3_PUBLIC_URL + file.name;
+              }
 
               // check if user exists
               const user = await ctx.prisma.user.findUnique({
