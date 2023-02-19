@@ -4,6 +4,7 @@ import Layout from "../components/layout";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
+
 import { api } from "../utils/api";
 
 interface Person {
@@ -14,8 +15,14 @@ interface Person {
 }
 
 const AdminPanel: NextPage = () => {
-    const { data: event, isLoading: isLoadingEvent } = api.events.getEvent.useQuery();
-    const { data: users, isLoading: isLoadingUsers } = api.users.getUsers.useQuery();
+    const {
+        data: event,
+        isLoading: isLoadingEvent
+    } = api.events.getEvent.useQuery();
+    const {
+        data: users,
+        isLoading: isLoadingUsers
+    } = api.users.getUsers.useQuery();
     const ctx = api.useContext();
 
     const updateRole = api.users.updateUserRole.useMutation();
@@ -33,6 +40,14 @@ const AdminPanel: NextPage = () => {
         },
         onSettled: async () => {
             void await ctx.events.getEvent.invalidate();
+        },
+        onSuccess: async (data) => {
+            if (data) {
+                await fetch(data, {
+                    method: "PUT",
+                    body: file?.slice(0, file.size)
+                })
+            }
         }
     });
 
@@ -68,7 +83,7 @@ const AdminPanel: NextPage = () => {
               {/*⚠️⚠️⚠️⚠️ THE MARGIN ABOVE BREAKS MOBILE VIEW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ */}
               <form
                 className="space-y-8 divide-y divide-gray-200"
-                onSubmit={async (e: React.FormEvent) => {
+                onSubmit={(e: React.FormEvent) => {
                     e.preventDefault();
                     upsertEvent.mutate({
                         id,
@@ -77,14 +92,21 @@ const AdminPanel: NextPage = () => {
                         submissionsOpen,
                         submissionsClose,
                         file: file
-                          ? await (async () => {
+                          ? (() => {
                               return {
                                   name: file.name,
-                                  body: await file.text()
+                                  filetype: file.type
                               };
                           })()
                           : undefined
                     });
+
+                    // if (signedUrl) {
+                    //     const response = await fetch(signedUrl, {
+                    //         method: "PUT",
+                    //         body: file?.slice(0, file.size)
+                    //     });
+                    // }
 
                     judges.map((judge) => {
                         updateRole.mutate({ id: judge.id, role: "judge" });
@@ -96,15 +118,18 @@ const AdminPanel: NextPage = () => {
                   <div className="space-y-8 divide-y divide-gray-200">
                       <div>
                           <div>
-                              <h3 className="text-lg font-medium leading-6 text-gray-900">Edit Event</h3>
+                              <h3 className="text-lg font-medium leading-6 text-gray-900">Edit
+                                  Event</h3>
                               <p className="mt-1 text-sm text-gray-500">
                                   This information will be displayed publicly.
                               </p>
                           </div>
 
-                          <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                          <div
+                            className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                               <div className="sm:col-span-4">
-                                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                                  <label htmlFor="title"
+                                         className="block text-sm font-medium text-gray-700">
                                       Title
                                   </label>
                                   <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -120,7 +145,8 @@ const AdminPanel: NextPage = () => {
                               </div>
 
                               <div className="sm:col-span-6">
-                                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                                  <label htmlFor="about"
+                                         className="block text-sm font-medium text-gray-700">
                                       Description
                                   </label>
                                   <div className="mt-1">
@@ -137,7 +163,8 @@ const AdminPanel: NextPage = () => {
 
                               {/*date stuff*/}
                               <div className="sm:col-span-4">
-                                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                                  <label htmlFor="title"
+                                         className="block text-sm font-medium text-gray-700">
                                       Submissions Open
                                   </label>
                                   <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -154,7 +181,8 @@ const AdminPanel: NextPage = () => {
 
                               {/*date stuff*/}
                               <div className="sm:col-span-4">
-                                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                                  <label htmlFor="title"
+                                         className="block text-sm font-medium text-gray-700">
                                       Submissions Close
                                   </label>
                                   <div className="mt-1 flex rounded-md rounded-md shadow-sm">
@@ -171,7 +199,8 @@ const AdminPanel: NextPage = () => {
 
                               {/*file stuff*/}
                               <div className="sm:col-span-6">
-                                  <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
+                                  <label htmlFor="cover-photo"
+                                         className="block text-sm font-medium text-gray-700">
                                       PDF
                                   </label>
                                   <div
@@ -213,8 +242,9 @@ const AdminPanel: NextPage = () => {
                                               </label>
                                           </div>
                                           <p className="text-xs text-gray-500">
-                                              {fileUrl ? <a href={fileUrl} target="_blank" rel="noreferrer">Current
-                                                  File</a> : "Upload File"}
+                                              {fileUrl ?
+                                                <a href={fileUrl} target="_blank" rel="noreferrer">Current
+                                                    File</a> : "Upload File"}
                                           </p>
                                       </div>
                                   </div>
@@ -223,8 +253,10 @@ const AdminPanel: NextPage = () => {
                               {/*judge stuff*/}
                               <div
                                 className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:col-span-4 sm:text-sm">
-                                  <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
-                                      <Combobox.Label className=" block text-sm font-medium text-gray-700">
+                                  <Combobox as="div" value={selectedPerson}
+                                            onChange={setSelectedPerson}>
+                                      <Combobox.Label
+                                        className=" block text-sm font-medium text-gray-700">
                                           Judges
                                       </Combobox.Label>
                                       <div className="relative mt-1">
@@ -330,7 +362,8 @@ const AdminPanel: NextPage = () => {
                                           </label>
                                       </div>
                                       {judges.map((person) => (
-                                        <div className="col-span-4 mt-1 block  text-sm" key={person.id}>
+                                        <div className="col-span-4 mt-1 block  text-sm"
+                                             key={person.id}>
                                             {person.name}
                                         </div>
                                       ))}
