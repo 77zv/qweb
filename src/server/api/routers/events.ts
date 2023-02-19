@@ -81,6 +81,7 @@ export const eventRouter = createTRPCRouter({
                 Key: key
             })
           );
+          console.log(key)
 
           return { key, url };
       })
