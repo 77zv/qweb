@@ -1,11 +1,5 @@
 import { z } from "zod";
-import {
-    judgesProcedure,
-    createTRPCRouter,
-    publicProcedure,
-    protectedProcedure,
-    adminProcedure
-} from "../trpc";
+import { judgesProcedure, createTRPCRouter, publicProcedure, protectedProcedure, adminProcedure } from "../trpc";
 import { CopyObjectCommand, DeleteObjectsCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "../../../env/server.mjs";
 import crypto from "crypto";
@@ -19,6 +13,24 @@ export const submissionsRouter = createTRPCRouter({
             console.log(error);
         }
     }),
+    getUserSubmissions: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+            })
+        )
+        .query(async ({ ctx, input }) => {
+            const { userId } = input;
+            try {
+                return await ctx.prisma.submission.findMany({
+                    where: {
+                        userId: userId,
+                    },
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }),
     submitSolution: protectedProcedure
         .input(
             z.object({
@@ -90,11 +102,11 @@ export const submissionsRouter = createTRPCRouter({
         const key = crypto.randomUUID();
 
         const url = await getSignedUrl(
-          ctx.r2,
-          new PutObjectCommand({
-              Bucket: "qweb",
-              Key: key,
-          })
+            ctx.r2,
+            new PutObjectCommand({
+                Bucket: "qweb",
+                Key: key,
+            })
         );
 
         return { key, url };

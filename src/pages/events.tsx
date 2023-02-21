@@ -99,6 +99,10 @@ const SubmissionDropbox = () => {
     const submitSolution = api.submissions.submitSolution.useMutation();
     const { data: sessionData } = useSession();
     const { data: eventData } = api.events.getEvent.useQuery();
+    const {data: submissions, isLoading: isLoadingSubmissions} = api.submissions.getSubmissions.useQuery({
+        //TODO: fix this thing
+        userId: sessionData?.user.id,
+    });
 
     const { data: presignedUrls } = api.submissions.createSubmissionPresignedUrls.useQuery(undefined, {
         staleTime: 1000 * 60 * 60 * 24,
@@ -180,7 +184,9 @@ const SubmissionDropbox = () => {
                               </div>
                               <div className="text-xs text-gray-500">
                                   // show currently uploaded file here
+                                  {submissions.map(sub =>{
 
+                                  })}
                               </div>
                           </>
                         ) : (
