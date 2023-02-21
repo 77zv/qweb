@@ -77,7 +77,8 @@ model Event {
 
 model Submission {
   id          String   @id @default(cuid())
-  fileUrl     String   @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  fileName     String?
+  fileUrl      String   @default("google.com") // r2 public string lol, google for now so i can push without breaking
   submittedAt DateTime @default(now())
   event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId     String

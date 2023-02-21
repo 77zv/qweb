@@ -99,9 +99,9 @@ const SubmissionDropbox = () => {
     const submitSolution = api.submissions.submitSolution.useMutation();
     const { data: sessionData } = useSession();
     const { data: eventData } = api.events.getEvent.useQuery();
-    const {data: submissions, isLoading: isLoadingSubmissions} = api.submissions.getSubmissions.useQuery({
-        //TODO: fix this thing
-        userId: sessionData?.user.id,
+
+    const { data: submissions } = api.submissions.getUserSubmissions.useQuery({
+        userId: sessionData?.user?.id,
     });
 
     const { data: presignedUrls } = api.submissions.createSubmissionPresignedUrls.useQuery(undefined, {
@@ -150,6 +150,7 @@ const SubmissionDropbox = () => {
                                             if (e.target.files != undefined && e.target.files[0] != null) {
                                                 let curFile = e.target.files[0];
 
+                                                const fileName = curFile.name
                                                 const extension = curFile.name.split(".").pop();
                                                 const type = curFile.type;
 
@@ -171,6 +172,7 @@ const SubmissionDropbox = () => {
                                                     eventId: eventData?.id!,
                                                     userId: sessionData?.user!.id!,
                                                     fileInfo: {
+                                                        fileName,
                                                         fileKey,
                                                         fileContentType: type,
                                                         fileExtension: extension,
@@ -183,10 +185,11 @@ const SubmissionDropbox = () => {
                                   <p className="pl-1">or drag and drop</p>
                               </div>
                               <div className="text-xs text-gray-500">
-                                  // show currently uploaded file here
-                                  {submissions.map(sub =>{
-
-                                  })}
+                                  {(submissions != undefined && submissions.length > 0) && (
+                                    <div>
+                                        {submissions[submissions.length - 1]?.fileName}
+                                    </div>
+                                  )}
                               </div>
                           </>
                         ) : (

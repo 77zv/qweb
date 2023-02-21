@@ -16,7 +16,7 @@ export const submissionsRouter = createTRPCRouter({
     getUserSubmissions: protectedProcedure
         .input(
             z.object({
-                userId: z.string(),
+                userId: z.optional(z.string()),
             })
         )
         .query(async ({ ctx, input }) => {
@@ -37,6 +37,7 @@ export const submissionsRouter = createTRPCRouter({
                 eventId: z.string(),
                 userId: z.string(),
                 fileInfo: z.object({
+                    fileName: z.optional(z.string()),
                     fileKey: z.optional(z.string()),
                     fileContentType: z.optional(z.string()),
                     fileExtension: z.optional(z.string()),
@@ -46,8 +47,9 @@ export const submissionsRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const { eventId, userId, fileInfo } = input;
             let fileUrl: string | undefined = undefined;
+            let fileName = fileInfo.fileName;
             try {
-                if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType) {
+                if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType ) {
                     // copy object command
                     const copyObjectCommand = new CopyObjectCommand({
                         Bucket: "qweb",
@@ -74,6 +76,7 @@ export const submissionsRouter = createTRPCRouter({
                     await ctx.r2.send(deleteObjectCommand);
 
                     fileUrl = env.S3_PUBLIC_URL + fileInfo.fileKey + "." + fileInfo.fileExtension;
+
                 }
 
                 // check if user exists
@@ -89,6 +92,7 @@ export const submissionsRouter = createTRPCRouter({
 
                 return await ctx.prisma.submission.create({
                     data: {
+                        fileName,
                         fileUrl,
                         eventId,
                         userId,
