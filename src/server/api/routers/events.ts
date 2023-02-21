@@ -3,6 +3,7 @@ import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "../../../env/server.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import crypto from "crypto"
 
 
 export const eventRouter = createTRPCRouter({
@@ -19,33 +20,27 @@ export const eventRouter = createTRPCRouter({
             id: z.string(),
             title: z.string(),
             description: z.string(),
-            file: z.optional(
-              z.object({
-                  name: z.string(),
-                  body: z.string()
-              })
-            ),
             submissionsOpen: z.optional(z.date()),
             submissionsClose: z.optional(z.date())
         })
       )
       .mutation(async ({ ctx, input }) => {
-          const { id, title, description, file, submissionsOpen, submissionsClose } = input;
+          const { id, title, description, submissionsOpen, submissionsClose } = input;
           try {
               let fileUrl: string | undefined = undefined;
-              if (file) {
-                  // upload to r2
-                  await ctx.r2.send(
-                    new PutObjectCommand({
-                        Bucket: "qweb",
-                        Key: file.name,
-                        Body: file.body,
-                        ContentType: "application/pdf"
-                    })
-                  );
-
-                  fileUrl = env.S3_PUBLIC_URL + file.name;
-              }
+              // if (file) {
+              //     // upload to r2
+              //     await ctx.r2.send(
+              //       new PutObjectCommand({
+              //           Bucket: "qweb",
+              //           Key: file.name,
+              //           Body: file.body,
+              //           ContentType: "application/pdf"
+              //       })
+              //     );
+              //
+              //     fileUrl = env.S3_PUBLIC_URL + file.name;
+              // }
 
               return await ctx.prisma.event.upsert({
                   where: {
@@ -54,14 +49,14 @@ export const eventRouter = createTRPCRouter({
                   create: {
                       title,
                       description,
-                      fileUrl,
+                      // fileUrl,
                       submissionsOpen,
                       submissionsClose
                   },
                   update: {
                       title,
                       description,
-                      fileUrl,
+                      // fileUrl,
                       submissionsOpen,
                       submissionsClose
                   }

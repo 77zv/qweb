@@ -67,9 +67,9 @@ model Event {
   id               String       @id @default(cuid())
   title            String
   description      String
-  fileUrl          String       @default("google.com") // r2 public string lol, google for now so i can push without breaking
-  submissionsOpen  DateTime
-  submissionsClose DateTime
+  fileUrl           String?       @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  submissionsOpen  DateTime?
+  submissionsClose DateTime?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   submissions      Submission[]

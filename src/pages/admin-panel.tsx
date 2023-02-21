@@ -19,10 +19,14 @@ const AdminPanel: NextPage = () => {
         data: event,
         isLoading: isLoadingEvent
     } = api.events.getEvent.useQuery();
+
     const {
         data: users,
         isLoading: isLoadingUsers
     } = api.users.getUsers.useQuery();
+
+    const preSignedUrl = api.events.createPresignedUrls.useQuery();
+
     const ctx = api.useContext();
 
     const updateRole = api.users.updateUserRole.useMutation();
@@ -40,14 +44,6 @@ const AdminPanel: NextPage = () => {
         },
         onSettled: async () => {
             void await ctx.events.getEvent.invalidate();
-        },
-        onSuccess: async (data) => {
-            if (data) {
-                await fetch(data, {
-                    method: "PUT",
-                    body: file?.slice(0, file.size)
-                })
-            }
         }
     });
 
@@ -69,7 +65,7 @@ const AdminPanel: NextPage = () => {
             setDescription(event.description);
             setSubmissionsOpen(event.submissionsOpen ? event.submissionsOpen : undefined);
             setSubmissionsClose(event.submissionsClose ? event.submissionsClose : undefined);
-            setFileUrl(event.fileUrl);
+            // setFileUrl(event.fileUrl);
         }
         if (users) {
             setJudges(users.filter((user) => user.role === "judge"));
@@ -85,20 +81,21 @@ const AdminPanel: NextPage = () => {
                 className="space-y-8 divide-y divide-gray-200"
                 onSubmit={(e: React.FormEvent) => {
                     e.preventDefault();
+                    console.log(preSignedUrl)
                     upsertEvent.mutate({
                         id,
                         title,
                         description,
                         submissionsOpen,
                         submissionsClose,
-                        file: file
-                          ? (() => {
-                              return {
-                                  name: file.name,
-                                  filetype: file.type
-                              };
-                          })()
-                          : undefined
+                        // file: file
+                        //   ? (() => {
+                        //       return {
+                        //           name: file.name,
+                        //           filetype: file.type
+                        //       };
+                        //   })()
+                        //   : undefined
                     });
 
                     // if (signedUrl) {
