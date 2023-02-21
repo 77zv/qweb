@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { CopyObjectCommand, DeleteObjectsCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "../../../env/server.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from "crypto";
@@ -21,17 +21,30 @@ export const eventRouter = createTRPCRouter({
                 description: z.string(),
                 submissionsOpen: z.optional(z.date()),
                 submissionsClose: z.optional(z.date()),
-                fileUrl: z.optional(z.string()),
+                fileInfo: z.object({
+                    fileKey: z.optional(z.string()),
+                    fileContentType: z.optional(z.string()),
+                    fileExtension: z.optional(z.string()),
+                }),
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const { id, title, description, submissionsOpen, submissionsClose } = input;
+            const { id, title, description, submissionsOpen, submissionsClose, fileInfo } = input;
             try {
                 let fileUrl: string | undefined = undefined;
-                if (fileUrl) {
+                if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType) {
                     // copy object command
+                    const copyObjectCommand = new CopyObjectCommand({
+                        Bucket: "qweb",
+                        CopySource: "qweb/" + fileInfo.fileKey,
+                        Key: fileInfo.fileKey + "." + fileInfo.fileExtension,
+                        ContentType: fileInfo.fileContentType,
+                    });
 
-                    fileUrl = env.S3_PUBLIC_URL + fileUrl;
+                    // copy object
+                    await ctx.r2.send(copyObjectCommand);
+
+                    fileUrl = env.S3_PUBLIC_URL + fileInfo.fileKey + "." + fileInfo.fileExtension;
                 }
 
                 return await ctx.prisma.event.upsert({
@@ -57,29 +70,17 @@ export const eventRouter = createTRPCRouter({
                 console.log(error);
             }
         }),
-    createPresignedUrls: adminProcedure
-        .input(
-            z.object({
-                contentType: z.optional(z.string()),
-                extension: z.optional(z.string()),
+    createPresignedUrls: adminProcedure.query(async ({ ctx }): Promise<{ key: string; url: string }> => {
+        const key = crypto.randomUUID();
+
+        const url = await getSignedUrl(
+            ctx.r2,
+            new PutObjectCommand({
+                Bucket: "qweb",
+                Key: key,
             })
-        )
-        .query(async ({ input, ctx }): Promise<{ key: string; url: string }> => {
-            if (!input.contentType) {
-                throw new Error("contentType is required");
-            }
+        );
 
-            const key = crypto.randomUUID();
-
-            const url = await getSignedUrl(
-                ctx.r2,
-                new PutObjectCommand({
-                    Bucket: "qweb",
-                    Key: key + "." + input.extension,
-                    ContentType: input.contentType,
-                })
-            );
-
-            return { key, url };
-        }),
+        return { key, url };
+    }),
 });

@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 
 import { api } from "../utils/api";
+import { set } from "zod";
 
 interface Person {
     id: string;
@@ -23,8 +24,8 @@ const AdminPanel: NextPage = () => {
     const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>(undefined);
     const [file, setFile] = useState<File | undefined>(undefined);
     const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
-    const [contentType, setContentType] = useState<string | undefined>(undefined);
-    const [extension, setExtension] = useState<string | undefined>(undefined);
+    const [fileContentType, setFileContentType] = useState<string | undefined>(undefined);
+    const [fileExtension, setFileExtension] = useState<string | undefined>(undefined);
 
     const ctx = api.useContext();
 
@@ -38,17 +39,9 @@ const AdminPanel: NextPage = () => {
         staleTime: 1000 * 60 * 60 * 24,
     });
 
-    const {
-        data: presignedUrls,
-        isLoading: isLoadingPresignedUrls,
-        refetch: refetchPresignedUrls,
-    } = api.events.createPresignedUrls.useQuery(
-        {
-            contentType,
-            extension,
-        },
-        { enabled: false }
-    );
+    const { data: presignedUrls } = api.events.createPresignedUrls.useQuery(undefined, {
+        staleTime: 1000 * 60 * 60 * 24,
+    });
 
     const updateRole = api.users.updateUserRole.useMutation();
 
@@ -94,25 +87,17 @@ const AdminPanel: NextPage = () => {
                         console.log("submitting");
                         e.preventDefault();
 
-                        let fileUrl: string | undefined = undefined;
+                        let fileKey: string | undefined = undefined;
 
                         if (file) {
                             console.log("file", file);
 
-                            const extension = file.name.split(".").pop();
-
-                            if (!extension) throw new Error("File has no extension");
-
-                            setContentType(file.type);
-                            setExtension(extension);
-
-                            console.log(contentType);
-                            console.log(extension);
-
-                            await refetchPresignedUrls();
+                            console.log("presignedUrls", presignedUrls);
 
                             let signedUrl = presignedUrls?.url!;
-                            fileUrl = presignedUrls?.key! + "." + extension;
+                            fileKey = presignedUrls?.key!;
+
+                            console.log("signedUrl", signedUrl);
 
                             const response = await fetch(signedUrl, {
                                 method: "PUT",
@@ -124,23 +109,27 @@ const AdminPanel: NextPage = () => {
                             }
                         }
 
-                        /*                    upsertEvent.mutate({
-id,
-title,
-description,
-submissionsOpen,
-submissionsClose,
-fileUrl,
-});
+                        upsertEvent.mutate({
+                            id,
+                            title,
+                            description,
+                            submissionsOpen,
+                            submissionsClose,
+                            fileInfo: {
+                                fileKey,
+                                fileContentType,
+                                fileExtension,
+                            }
+                        });
 
-judges.map((judge) => {
-updateRole.mutate({ id: judge.id, role: "judge" });
-});*/
+                        judges.map((judge) => {
+                            updateRole.mutate({ id: judge.id, role: "judge" });
+                        });
 
                         // clear state for files
                         setFile(undefined);
-                        setContentType(undefined);
-                        setExtension(undefined);
+                        setFileContentType(undefined);
+                        setFileExtension(undefined);
                     }}
                 >
                     <div className="space-y-8 divide-y divide-gray-200">
@@ -251,10 +240,25 @@ updateRole.mutate({ id: judge.id, role: "judge" });
                                                         name="file-upload"
                                                         type="file"
                                                         className="sr-only"
-                                                        onChange={(event) => {
+                                                        onChange={async (event) => {
                                                             // check if files are null
-                                                            if (event.target.files != undefined) {
-                                                                setFile(event.target.files[0]);
+                                                            if (
+                                                                event.target.files != undefined &&
+                                                                event.target.files[0] != null
+                                                            ) {
+                                                                let curFile = event.target.files[0];
+
+                                                                setFile(curFile);
+
+                                                                const extension = curFile.name.split(".").pop();
+                                                                const type = curFile.type;
+
+                                                                if (!extension)
+                                                                    throw new Error("File has no extension");
+                                                                if (!type) throw new Error("File has no type");
+
+                                                                setFileExtension(extension);
+                                                                setFileContentType(type);
                                                             }
                                                         }}
                                                     />
