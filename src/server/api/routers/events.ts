@@ -44,6 +44,20 @@ export const eventRouter = createTRPCRouter({
                     // copy object
                     await ctx.r2.send(copyObjectCommand);
 
+                    // delete original
+                    const deleteObjectCommand = new DeleteObjectsCommand({
+                        Bucket: "qweb",
+                        Delete: {
+                            Objects: [
+                                {
+                                    Key: fileInfo.fileKey,
+                                }
+                            ]
+                        }
+                    });
+
+                    await ctx.r2.send(deleteObjectCommand);
+
                     fileUrl = env.S3_PUBLIC_URL + fileInfo.fileKey + "." + fileInfo.fileExtension;
                 }
 
