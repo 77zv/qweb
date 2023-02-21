@@ -23,7 +23,7 @@ const AdminPanel: NextPage = () => {
     const [submissionsOpen, setSubmissionsOpen] = useState<Date | undefined>(undefined);
     const [submissionsClose, setSubmissionsClose] = useState<Date | undefined>(undefined);
     const [file, setFile] = useState<File | undefined>(undefined);
-    const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
+    const [fileUrl, setFileUrl] = useState<string | null>(null);
     const [fileContentType, setFileContentType] = useState<string | undefined>(undefined);
     const [fileExtension, setFileExtension] = useState<string | undefined>(undefined);
 
