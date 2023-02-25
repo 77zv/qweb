@@ -148,7 +148,7 @@ const SubmissionDropbox = () => {
                                         className="sr-only"
                                         onChange={async (e) => {
                                             if (e.target.files != undefined && e.target.files[0] != null) {
-                                                let curFile = e.target.files[0];
+                                                const curFile = e.target.files[0];
 
                                                 const fileName = curFile.name
                                                 const extension = curFile.name.split(".").pop();
@@ -158,19 +158,17 @@ const SubmissionDropbox = () => {
                                                 if (!type) throw new Error("File has no type");
 
                                                 // upload file to presigned url
-                                                let signedUrl = presignedUrls?.url!;
-                                                let fileKey = presignedUrls?.key!;
+                                                const signedUrl = presignedUrls?.url!;
+                                                const fileKey = presignedUrls?.key!;
 
                                                 console.log("signedUrl", signedUrl);
-
-                                                const response = await fetch(signedUrl, {
+                                                await fetch(signedUrl, {
                                                     method: "PUT",
                                                     body: curFile.slice(0, curFile.size),
                                                 });
-
                                                 submitSolution.mutate({
                                                     eventId: eventData?.id!,
-                                                    userId: sessionData?.user!.id!,
+                                                    userId: sessionData?.user!.id,
                                                     fileInfo: {
                                                         fileName,
                                                         fileKey,
