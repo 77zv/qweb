@@ -133,7 +133,6 @@ const SubmissionDropbox = () => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        {(sessionData && sessionData.user) ? (
                           <>
                               <div className="flex text-sm text-gray-600">
                                   <label
@@ -158,26 +157,31 @@ const SubmissionDropbox = () => {
                                                 if (!type) throw new Error("File has no type");
 
                                                 // upload file to presigned url
-                                                const signedUrl = presignedUrls?.url!;
-                                                const fileKey = presignedUrls?.key!;
+                                                const signedUrl = presignedUrls?.url;
+                                                const fileKey = presignedUrls?.key;
 
                                                 console.log("signedUrl", signedUrl);
-                                                await fetch(signedUrl, {
-                                                    method: "PUT",
-                                                    body: curFile.slice(0, curFile.size),
-                                                });
-                                                submitSolution.mutate({
-                                                    eventId: eventData?.id!,
-                                                    userId: sessionData?.user!.id,
-                                                    fileInfo: {
-                                                        fileName,
-                                                        fileKey,
-                                                        fileContentType: type,
-                                                        fileExtension: extension,
-                                                    },
-                                                });
+                                                if (signedUrl != undefined) {
+                                                    await fetch(signedUrl, {
+                                                        method: "PUT",
+                                                        body: curFile.slice(0, curFile.size),
+                                                    });
+                                                }
+                                                if (eventData != undefined && sessionData?.user != undefined) {
+                                                    submitSolution.mutate({
+                                                        eventId: eventData.id,
+                                                        userId: sessionData.user.id,
+                                                        fileInfo: {
+                                                            fileName,
+                                                            fileKey,
+                                                            fileContentType: type,
+                                                            fileExtension: extension,
+                                                        },
+                                                    });
+                                                }
                                             }
-                                        }}
+                                        }
+                                      }
                                       />
                                   </label>
                                   <p className="pl-1">or drag and drop</p>
@@ -190,11 +194,6 @@ const SubmissionDropbox = () => {
                                   )}
                               </div>
                           </>
-                        ) : (
-                          //TODO: render some text here when not signed
-                          // in telling people to sign in
-                          <text>please sign in</text>
-                        )}
                         <p className="text-xs text-gray-500">PDF</p>
                     </div>
                 </div>
