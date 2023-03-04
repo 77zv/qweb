@@ -47,7 +47,7 @@ export const submissionsRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const { eventId, userId, fileInfo } = input;
             let fileUrl: string | undefined = undefined;
-            let fileName = fileInfo.fileName;
+            const fileName = fileInfo.fileName;
             try {
                 if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType ) {
                     // copy object command

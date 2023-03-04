@@ -1,15 +1,24 @@
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import Layout from "../components/layout";
 import { api } from "../utils/api";
 
 const JudgesPanel = () => {
 
-    const { data: event } = api.events.getEvent.useQuery();
+    // get all the event submissions from each user
+    const { data: submissions } = api.submissions.getSubmissions.useQuery();
 
     return (
-      <div>
-
-      </div>
+      <Layout>
+          <div>
+              {/* loop through all the submissions */}
+              {submissions?.map((submission) => (
+                <div key={submission.id}>
+                    <h1>{submission.userId}</h1>
+                    <p>{submission.fileName}</p>
+                    <a href={submission.fileUrl}>{submission.fileUrl}</a>
+                </div>
+              ))}
+          </div>
+      </Layout>
     );
 };
 
