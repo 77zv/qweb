@@ -67,7 +67,7 @@ export const submissionsRouter = createTRPCRouter({
                         Delete: {
                             Objects: [
                                 {
-                                    Key: fileInfo.fileKey,
+                                    Key: userId,
                                 },
                             ],
                         },
@@ -75,7 +75,7 @@ export const submissionsRouter = createTRPCRouter({
 
                     await ctx.r2.send(deleteObjectCommand);
 
-                    fileUrl = env.S3_PUBLIC_URL + fileInfo.fileKey + "." + fileInfo.fileExtension;
+                    fileUrl = env.S3_PUBLIC_URL + userId + "." + fileInfo.fileExtension;
 
                 }
 
