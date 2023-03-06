@@ -11,7 +11,7 @@ const JudgesPanel = () => {
           <div>
               {/* loop through all the submissions */}
               {submissions?.map((submission) => (
-                <div key={submission.id}>
+                <div key={submission.userId}>
                     <h1>{submission.userId}</h1>
                     <p>{submission.fileName}</p>
                     <a href={submission.fileUrl}>{submission.fileUrl}</a>
