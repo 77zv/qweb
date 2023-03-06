@@ -14,105 +14,123 @@ export const submissionsRouter = createTRPCRouter({
         }
     }),
     getUserSubmissions: protectedProcedure
-        .input(
-            z.object({
-                userId: z.optional(z.string()),
-            })
-        )
-        .query(async ({ ctx, input }) => {
-            const { userId } = input;
-            try {
-                return await ctx.prisma.submission.findMany({
-                    where: {
-                        userId: userId,
-                    },
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }),
+      .input(
+        z.object({
+            userId: z.optional(z.string())
+        })
+      )
+      .query(async ({ ctx, input }) => {
+          const { userId } = input;
+          try {
+              return await ctx.prisma.submission.findMany({
+                  where: {
+                      userId: userId
+                  }
+              });
+          } catch (error) {
+              console.log(error);
+          }
+      }),
     submitSolution: protectedProcedure
-        .input(
-            z.object({
-                eventId: z.string(),
-                userId: z.string(),
-                fileInfo: z.object({
-                    fileName: z.optional(z.string()),
-                    fileKey: z.optional(z.string()),
-                    fileContentType: z.optional(z.string()),
-                    fileExtension: z.optional(z.string()),
-                }),
+      .input(
+        z.object({
+            eventId: z.string(),
+            userId: z.string(),
+            fileInfo: z.object({
+                fileName: z.optional(z.string()),
+                fileKey: z.optional(z.string()),
+                fileContentType: z.optional(z.string()),
+                fileExtension: z.optional(z.string())
             })
-        )
-        .mutation(async ({ ctx, input }) => {
-            const { eventId, userId, fileInfo } = input;
-            let fileUrl: string | undefined = undefined;
-            const fileName = fileInfo.fileName;
-            try {
-                if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType ) {
-                    // copy object command
-                    const copyObjectCommand = new CopyObjectCommand({
-                        Bucket: "qweb",
-                        CopySource: "qweb/" + fileInfo.fileKey,
-                        Key: userId + "." + fileInfo.fileExtension,
-                        ContentType: fileInfo.fileContentType,
-                    });
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+          const { eventId, userId, fileInfo } = input;
+          let fileUrl: string | undefined = undefined;
+          const fileName = fileInfo.fileName;
+          try {
+              if (fileInfo.fileExtension && fileInfo.fileKey && fileInfo.fileContentType) {
+                  // copy object command
+                  const copyObjectCommand = new CopyObjectCommand({
+                      Bucket: "qweb",
+                      CopySource: "qweb/" + fileInfo.fileKey,
+                      Key: userId + "." + fileInfo.fileExtension,
+                      ContentType: fileInfo.fileContentType
+                  });
 
-                    // copy object
-                    await ctx.r2.send(copyObjectCommand);
+                  // copy object
+                  await ctx.r2.send(copyObjectCommand);
 
-                    // delete original
-                    const deleteObjectCommand = new DeleteObjectsCommand({
-                        Bucket: "qweb",
-                        Delete: {
-                            Objects: [
-                                {
-                                    Key: userId,
-                                },
-                            ],
-                        },
-                    });
+                  // delete original
+                  const deleteObjectCommand = new DeleteObjectsCommand({
+                      Bucket: "qweb",
+                      Delete: {
+                          Objects: [
+                              {
+                                  Key: userId
+                              }
+                          ]
+                      }
+                  });
 
-                    await ctx.r2.send(deleteObjectCommand);
+                  await ctx.r2.send(deleteObjectCommand);
 
-                    fileUrl = env.S3_PUBLIC_URL + userId + "." + fileInfo.fileExtension;
+                  fileUrl = env.S3_PUBLIC_URL + userId + "." + fileInfo.fileExtension;
 
-                }
+              }
 
-                // check if user exists
-                const user = await ctx.prisma.user.findUnique({
-                    where: {
-                        id: userId,
-                    },
-                });
+              // check if user exists
+              const user = await ctx.prisma.user.findUnique({
+                  where: {
+                      id: userId
+                  }
+              });
 
-                if (!user) {
-                    throw new Error("User not found");
-                }
+              if (!user) {
+                  throw new Error("User not found");
+              }
 
-                return await ctx.prisma.submission.create({
-                    data: {
-                        fileName,
-                        fileUrl,
-                        eventId,
-                        userId,
-                    },
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }),
+              return await ctx.prisma.submission.upsert({
+                  where: {
+                      userId: userId
+                  },
+                  update: {
+                      fileName,
+                      fileUrl,
+                      eventId,
+                      userId
+                  },
+                  create: {
+                      fileName,
+                      fileUrl,
+                      eventId,
+                      userId
+                  }
+              });
+
+              // return await ctx.prisma.submission.create({
+              //     data: {
+              //         fileName,
+              //         fileUrl,
+              //         eventId,
+              //         userId,
+              //     },
+              // });
+          } catch (error) {
+              console.log(error);
+          }
+      }),
     createSubmissionPresignedUrls: protectedProcedure.query(async ({ ctx }): Promise<{ key: string; url: string }> => {
         const key = crypto.randomUUID();
 
         const url = await getSignedUrl(
-            ctx.r2,
-            new PutObjectCommand({
-                Bucket: "qweb",
-                Key: key,
-            })
+          ctx.r2,
+          new PutObjectCommand({
+              Bucket: "qweb",
+              Key: key
+          })
         );
 
         return { key, url };
-    }),
+    })
 });

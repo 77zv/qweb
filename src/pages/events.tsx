@@ -168,6 +168,7 @@ const SubmissionDropbox = () => {
                                                     });
                                                 }
                                                 if (eventData != undefined && sessionData?.user != undefined) {
+                                                    console.log(sessionData.user.id)
                                                     submitSolution.mutate({
                                                         eventId: eventData.id,
                                                         userId: sessionData.user.id,

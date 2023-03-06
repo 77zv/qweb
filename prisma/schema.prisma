@@ -67,7 +67,7 @@ model Event {
   id               String       @id @default(cuid())
   title            String
   description      String
-  fileUrl           String?       @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  fileUrl          String?      @default("google.com") // r2 public string lol, google for now so i can push without breaking
   submissionsOpen  DateTime?
   submissionsClose DateTime?
   createdAt        DateTime     @default(now())
@@ -76,21 +76,20 @@ model Event {
 }
 
 model Submission {
-  id          String   @id @default(cuid())
-  fileName     String?
-  fileUrl      String   @default("google.com") // r2 public string lol, google for now so i can push without breaking
+  fileName    String?
+  fileUrl     String   @default("google.com") // r2 public string lol, google for now so i can push without breaking
   submittedAt DateTime @default(now())
   event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId     String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
+  userId      String   @id
   reviews     Review[]
 }
 
 model Review {
   id           String     @id @default(cuid())
   submittedAt  DateTime   @default(now())
-  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submission   Submission @relation(fields: [submissionId], references: [userId], onDelete: Cascade)
   submissionId String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
