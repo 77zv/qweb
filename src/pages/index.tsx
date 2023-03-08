@@ -93,14 +93,15 @@ const HeroContent: React.FC = () => {
 
 const LearnAboutTeam: React.FC = () => {
 
-  const description = "The Queen's Business Brigade is a dynamic organization comprised of ambitious young" +
-    " professionals and students. With a focus on community outreach and skill-building, the" +
-    " Brigade strives to create meaningful impact in the local business landscape. Members" +
-    " participate in events, workshops, and networking opportunities, gaining valuable" +
-    " experience and making valuable connections. The Brigade also hosts guest speakers and" +
-    " arranges tours of successful businesses to provide members with a unique perspective on" +
-    " the business world. Ultimately, the Queen's Business Brigade prepares its members for" +
-    "  successful careers by fostering a spirit of innovation and collaboration.";
+  const description = 'Queen’s Business Brigades is an economic and financial ' +
+    'consulting chapter of Global Brigades. Global Brigades, founded in 2007,  ' +
+    'is a nonprofit health and sustainable development organization that works ' +
+    'with student volunteers from around the world, as well as local staff in ' +
+    'Central America and West Africa to partner with communities to reduce ' +
+    'inequalities. \n In the past, QBB has assisted small businesses and community ' +
+    'banks in regions of Panama in fields like capital allocation, budgeting, ' +
+    'and market research. QBB volunteers have gained invaluable experience in ' +
+    'areas such as consulting and finance.'
 
   return (
     <div className="relative py-36 bg-white">
@@ -177,9 +178,9 @@ const LearnAboutTeam: React.FC = () => {
               </p>
               <a
                 className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
-                href="#"
+                href="/about-us"
               >
-                Explore open positions
+                Learn more about our team
               </a>
             </div>
           </div>
@@ -203,15 +204,23 @@ const Sponsors = () => {
               <div className="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
                 <img
                   className="h-12"
-                  src="master.svg.png"
+                  src="sponsors/sponsor1.png"
                   alt="McMaster University"
                 />
               </div>
               <div className="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                <img className="h-12" src="Deloitte-Logo.png" alt="Tuple" />
+                <img
+                  className="h-12"
+                  src="sponsors/sponsor2.png"
+                  alt="Tuple"
+                />
               </div>
               <div className="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                <img className="h-12" src="business-brigades-logo.png" alt="Level" />
+                <img
+                  className="h-12"
+                  src="sponsors/sponsor3.png"
+                  alt="Level"
+                />
               </div>
             </div>
           </div>
@@ -220,14 +229,6 @@ const Sponsors = () => {
     </div>
   );
 };
-
-/* This example requires Tailwind CSS v2.0+ */
-const stats = [
-  { label: "If no API remove", value: "#" },
-  { label: "If no API remove", value: "#" },
-  { label: "If no API remove", value: "#" },
-  { label: "If no API remove", value: "#" },
-];
 
 const ContentSection = () => {
   return (
@@ -314,14 +315,14 @@ const ContentSection = () => {
 
           {/* Stats section */}
           <div className="mt-10">
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-8">
-              {stats.map((stat) => (
-                <div key={stat.label} className="border-t-2 border-gray-100 pt-6">
-                  <dt className="text-base font-medium text-gray-500">{stat.label}</dt>
-                  <dd className="text-3xl font-extrabold tracking-tight text-gray-900">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
+            {/*<dl className="grid grid-cols-2 gap-x-4 gap-y-8">*/}
+            {/*  {stats.map((stat) => (*/}
+            {/*    <div key={stat.label} className="border-t-2 border-gray-100 pt-6">*/}
+            {/*      <dt className="text-base font-medium text-gray-500">{stat.label}</dt>*/}
+            {/*      <dd className="text-3xl font-extrabold tracking-tight text-gray-900">{stat.value}</dd>*/}
+            {/*    </div>*/}
+            {/*  ))}*/}
+            {/*</dl>*/}
             <div className="mt-10">
               <a href="https://business.globalbrigades.org/" className="text-base font-medium text-blue-900">
                 {" "}
