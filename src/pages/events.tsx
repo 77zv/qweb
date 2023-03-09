@@ -28,14 +28,21 @@ export default function Example() {
         }
     }, [isLoadingEvent]);
 
-    //TODO add a check to see if the event is open
+    //TODO make sure this check is constantly checking and not just on load
     useEffect( () => {
-        if (submissionsOpen && submissionsClose) {
-            const now = new Date();
-            if (now > submissionsOpen && now < submissionsClose) {
-                setIsOpen(true);
+        // make the function keep checking if the event is open
+        const interval = setInterval(() => {
+            console.log('checking if event is open');
+            if (submissionsOpen && submissionsClose) {
+                const now = new Date();
+                if (now > submissionsOpen && now < submissionsClose) {
+                    setIsOpen(true);
+                }
             }
-        }
+        }, 1000);
+
+        return () => clearInterval(interval);
+
     }, [submissionsOpen, submissionsClose])
 
     const { data: sessionData } = useSession();
