@@ -31,12 +31,14 @@ export default function Example() {
     //TODO make sure this check is constantly checking and not just on load
     useEffect( () => {
         // make the function keep checking if the event is open
+
         const interval = setInterval(() => {
             console.log('checking if event is open');
             if (submissionsOpen && submissionsClose) {
                 const now = new Date();
                 if (now > submissionsOpen && now < submissionsClose) {
                     setIsOpen(true);
+                    clearInterval(interval);
                 }
             }
         }, 1000);
@@ -205,14 +207,17 @@ const SubmissionDropbox = () => {
                               <p className="pl-1">or drag and drop</p>
                           </div>
                           <div className="text-xs text-gray-500">
-                              {(submissions != undefined && submissions.length > 0) && (
+                              {(submissions != undefined && submissions.length > 0) ? (
                                 <div>
                                     {submissions[submissions.length - 1]?.fileName}
                                 </div>
-                              )}
+                              ) : (
+                                <div>
+                                    No file uploaded
+                                </div>
+                                  )}
                           </div>
                       </>
-                      <p className="text-xs text-gray-500">PDF</p>
                   </div>
               </div>
           </div>
