@@ -36,6 +36,7 @@ export const submissionsRouter = createTRPCRouter({
         z.object({
             eventId: z.string(),
             userId: z.string(),
+            userName: z.string(),
             fileInfo: z.object({
                 fileName: z.optional(z.string()),
                 fileKey: z.optional(z.string()),
@@ -45,7 +46,7 @@ export const submissionsRouter = createTRPCRouter({
         })
       )
       .mutation(async ({ ctx, input }) => {
-          const { eventId, userId, fileInfo } = input;
+          const { eventId, userId, fileInfo, userName } = input;
           let fileUrl: string | undefined = undefined;
           const fileName = fileInfo.fileName;
           try {
@@ -98,13 +99,15 @@ export const submissionsRouter = createTRPCRouter({
                       fileName,
                       fileUrl,
                       eventId,
-                      userId
+                      userId,
+                      userName
                   },
                   create: {
                       fileName,
                       fileUrl,
                       eventId,
-                      userId
+                      userId,
+                      userName,
                   }
               });
 

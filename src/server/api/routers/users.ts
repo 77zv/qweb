@@ -37,4 +37,19 @@ export const usersRouter = createTRPCRouter({
             console.log(error);
         }
     }),
+    getUser: protectedProcedure.input(z.object({
+        id: z.string()
+    })
+    ).query(async ({ ctx, input }) => {
+        const { id } = input;
+        try {
+            return await ctx.prisma.user.findUnique({
+                where: {
+                    id: id
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }),
 });

@@ -83,6 +83,7 @@ model Submission {
   eventId     String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String   @id
+  userName    String
   reviews     Review[]
 }
 
