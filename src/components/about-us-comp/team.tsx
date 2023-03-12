@@ -40,34 +40,58 @@ const people = [
     },
 
     {
-        name: 'Charlotte Klajman',
-        role: 'Co-Chair',
+        name: 'Maddy Locher',
+        role: 'First-Year Representative',
         imageUrl:
-          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578781929472/image.jpg',
+          './team/Maddy-FirstYear.png',
     },
     {
-        name: 'Jazlyn McGuinty',
-        role: 'Co-Chair',
+        name: 'Siddharth Seth',
+        role: 'Logistics Director',
         imageUrl:
-          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578131812362/image_1.jpg',
+          './team/Siddharth-LogDir.png',
     },
     {
-        name: 'Aiofe Hamilton',
-        role: 'Education Co-Director',
+        name: 'Rhea Pai',
+        role: 'Finance Director',
         imageUrl:
-          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578349920378/image_2.jpg',
+          './team/Rhea-FinDir.png',
     },
     {
-        name: 'Will Wu',
-        role: 'Education Co-Director',
+        name: 'Antonia Huang',
+        role: 'Outreach Director',
         imageUrl:
-          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578572222484/image_3.jpg',
+          './team/Antonia-OutDir.png',
     },
     {
-        name: 'Ava Slotman',
-        role: 'Chapter Advisor',
+        name: 'Igor Serafini',
+        role: 'Outreach Coordinator',
         imageUrl:
-          'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578974871603/image_2023-02-04_153213285.jpg',
+          './team/Igor-OutCoor.png',
+    },
+    {
+        name: 'Andrew Liu',
+        role: 'Sponsorship Coordinator',
+        imageUrl:
+            './team/Andrew-SponCoor.png',
+    },
+    {
+        name: 'Jack Biggar',
+        role: 'Marketing Director',
+        imageUrl:
+            './team/Jack-MarDir.png',
+    },
+    {
+        name: 'Katlean Tam',
+        role: 'Social Media Coordinator',
+        imageUrl:
+            './team/Antonia-OutDir.png',
+    },
+    {
+        name: 'Renee Tung',
+        role: 'Recruitment Coordinator',
+        imageUrl:
+            './team/Renee-RecCoor.png',
     },
 ]
 
