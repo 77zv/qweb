@@ -94,7 +94,7 @@ const AdminPanel: NextPage = () => {
 
                             console.log("presignedUrls", presignedUrls);
 
-                            let signedUrl = presignedUrls?.url!;
+                            const signedUrl = presignedUrls?.url!;
                             fileKey = presignedUrls?.key!;
 
                             console.log("signedUrl", signedUrl);

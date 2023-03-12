@@ -80,6 +80,7 @@ const people = [
         twitterUrl: 'https://twitter.com/jazzjohnson',
     },
 ]
+//TODO fix break points for mobile and smaller screen sizes
 
 export default function Team() {
     return (
