@@ -12,36 +12,31 @@ const people = [
         name: 'Charlotte Klajman',
         role: 'Co-Chair',
         imageUrl:
-            'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578781929472/image.jpg',
-        twitterUrl: 'https://twitter.com/aidonmccomb',
+            './team/Charlotte-CoChair.jpg',
     },
     {
         name: 'Jazlyn McGuinty',
         role: 'Co-Chair',
         imageUrl:
-            'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578131812362/image_1.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
+            './team/Jazlyn-CoChair.jpg',
     },
     {
         name: 'Aiofe Hamilton',
         role: 'Education Co-Director',
         imageUrl:
-            'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578349920378/image_2.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
+            './team/Aiofe-CoDir.jpg',
     },
     {
         name: 'Will Wu',
         role: 'Education Co-Director',
         imageUrl:
-            'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578572222484/image_3.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
+            './team/Will-CoDir.jpg',
     },
     {
         name: 'Ava Slotman',
         role: 'Chapter Advisor',
         imageUrl:
-            'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578974871603/image_2023-02-04_153213285.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
+            './team/Ava-ChapAdvis.jpg',
     },
 
     {
@@ -49,35 +44,30 @@ const people = [
         role: 'Co-Chair',
         imageUrl:
           'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578781929472/image.jpg',
-        twitterUrl: 'https://twitter.com/aidonmccomb',
     },
     {
         name: 'Jazlyn McGuinty',
         role: 'Co-Chair',
         imageUrl:
           'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578131812362/image_1.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
     },
     {
         name: 'Aiofe Hamilton',
         role: 'Education Co-Director',
         imageUrl:
           'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578349920378/image_2.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
     },
     {
         name: 'Will Wu',
         role: 'Education Co-Director',
         imageUrl:
           'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578572222484/image_3.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
     },
     {
         name: 'Ava Slotman',
         role: 'Chapter Advisor',
         imageUrl:
           'https://cdn.discordapp.com/attachments/1015736391004606510/1071530578974871603/image_2023-02-04_153213285.jpg',
-        twitterUrl: 'https://twitter.com/jazzjohnson',
     },
 ]
 
@@ -110,12 +100,6 @@ export default function Team() {
                                         </div>
                                         <ul role="list" className="flex space-x-5">
                                             <li>
-                                                <a href={person.twitterUrl} className="text-gray-400 hover:text-gray-500">
-                                                    <span className="sr-only">Twitter</span>
-                                                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                                                    </svg>
-                                                </a>
                                             </li>
                                         </ul>
                                     </div>
