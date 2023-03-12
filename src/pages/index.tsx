@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <main>
           <HeroContent />
           <LearnAboutTeam />
-          <ContentSection/>
+          {/*<ContentSection/>*/}
           <Sponsors />
         </main>
       </Layout>
@@ -52,8 +52,10 @@ const HeroContent: React.FC = () => {
                 </h1>
                 <p
                   className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  International movement of students and professionals building economic
-                  opportunities in the developing world.
+                  Queen’s Business Brigades is an economic and financial consulting chapter of Global Brigades. Global Brigades, founded in 2007,  is a nonprofit health and sustainable development organization that works with student volunteers from around the world, as well as local staff in Central America and West Africa to partner with communities to reduce inequalities.
+
+                  In the past, QBB has assisted small businesses and community banks in regions of Panama in fields like capital allocation, budgeting, and market research. QBB volunteers have gained invaluable experience in areas such as consulting and finance.
+
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   {!sessionData &&
@@ -93,15 +95,7 @@ const HeroContent: React.FC = () => {
 
 const LearnAboutTeam: React.FC = () => {
 
-  const description = 'Queen’s Business Brigades is an economic and financial ' +
-    'consulting chapter of Global Brigades. Global Brigades, founded in 2007,  ' +
-    'is a nonprofit health and sustainable development organization that works ' +
-    'with student volunteers from around the world, as well as local staff in ' +
-    'Central America and West Africa to partner with communities to reduce ' +
-    'inequalities. \n In the past, QBB has assisted small businesses and community ' +
-    'banks in regions of Panama in fields like capital allocation, budgeting, ' +
-    'and market research. QBB volunteers have gained invaluable experience in ' +
-    'areas such as consulting and finance.'
+  const description = "This March, QBB is hosting its inaugural Case Competition. Students from all across Canada will be able to participate in this virtual asynchronous case competition - where they will be challenged to come up with a creative business solution for a microenterprise in Panama."
 
   return (
     <div className="relative py-36 bg-white">
@@ -171,16 +165,16 @@ const LearnAboutTeam: React.FC = () => {
             <div
               className="relative max-w-md mx-auto py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
               <h2 className="text-3xl font-extrabold text-white" id="join-heading">
-                Checkout Our Team
+                Our Events
               </h2>
               <p className="text-lg text-white">
                 {description}
               </p>
               <a
                 className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
-                href="/about-us"
+                href="/events"
               >
-                Learn more about our team
+                Events
               </a>
             </div>
           </div>
@@ -230,111 +224,111 @@ const Sponsors = () => {
   );
 };
 
-const ContentSection = () => {
-  return (
-    <div className="relative bg-white py-16 sm:py-24">
-      <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
-        <div className="relative sm:py-16 lg:py-0">
-          <div aria-hidden="true" className="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen">
-            <div className="absolute inset-y-0 right-1/2 w-full bg-gray-50 rounded-r-3xl lg:right-72" />
-            <svg
-              className="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
-              width={404}
-              height={392}
-              fill="none"
-              viewBox="0 0 404 392"
-            >
-              <defs>
-                <pattern
-                  id="02f20b47-fd69-4224-a62a-4c9de5c763f7"
-                  x={0}
-                  y={0}
-                  width={20}
-                  height={20}
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                </pattern>
-              </defs>
-              <rect width={404} height={392} fill="url(#02f20b47-fd69-4224-a62a-4c9de5c763f7)" />
-            </svg>
-          </div>
-          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
-            {/* Testimonial card*/}
-            <div className="relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden">
-              <img
-                className="absolute inset-0 h-full w-full object-cover"
-                src="/deloitte.jpg"
-                alt=""
-              />
-              <div className="absolute inset-0 bg-indigo-400 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-indigo-900 opacity-90" />
-              <div className="relative px-8">
-                <blockquote className="mt-8">
-                  <div className="relative text-lg font-medium text-white md:flex-grow">
-                    <svg
-                      className="absolute top-0 left-0 transform -translate-x-3 -translate-y-2 h-8 w-8 text-indigo-400"
-                      fill="currentColor"
-                      viewBox="0 0 32 32"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                    </svg>
-                    <p className="relative">
-                      Working with Global Brigades provided a valuable connection between Deloitte and
-                      the local businesses that we were partnered with. Going into our work with a baseline
-                      of trust and cultural awareness made our job much easier.
-                    </p>
-                  </div>
-
-                  <footer className="mt-4">
-                    <p className="text-base font-semibold text-indigo-200">Kassidy Knight , Deloitte Consulting</p>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
-          {/* Content area */}
-          <div className="pt-12 sm:pt-16 lg:pt-20">
-            <h2 className="text-3xl text-gray-900 font-extrabold tracking-tight sm:text-4xl">
-              Business & Financial Consulting to Better Lives
-            </h2>
-            <div className="mt-6 text-gray-500 space-y-6">
-              <p className="text-lg">
-                GBB proudly partners with Deloitte to increase impact on brigades! Deloitte
-                consultants accompany our university volunteers to ensure higher quality
-                business guidance for the community members while providing our students
-                with valuable career insight.
-              </p>
-            </div>
-          </div>
-
-          {/* Stats section */}
-          <div className="mt-10">
-            {/*<dl className="grid grid-cols-2 gap-x-4 gap-y-8">*/}
-            {/*  {stats.map((stat) => (*/}
-            {/*    <div key={stat.label} className="border-t-2 border-gray-100 pt-6">*/}
-            {/*      <dt className="text-base font-medium text-gray-500">{stat.label}</dt>*/}
-            {/*      <dd className="text-3xl font-extrabold tracking-tight text-gray-900">{stat.value}</dd>*/}
-            {/*    </div>*/}
-            {/*  ))}*/}
-            {/*</dl>*/}
-            <div className="mt-10">
-              <a href="https://business.globalbrigades.org/" className="text-base font-medium text-blue-900">
-                {" "}
-                Learn more about how we're changing the world <span aria-hidden="true">&rarr;</span>{" "}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+// const ContentSection = () => {
+//   return (
+//     <div className="relative bg-white py-16 sm:py-24">
+//       <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
+//         <div className="relative sm:py-16 lg:py-0">
+//           <div aria-hidden="true" className="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen">
+//             <div className="absolute inset-y-0 right-1/2 w-full bg-gray-50 rounded-r-3xl lg:right-72" />
+//             <svg
+//               className="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
+//               width={404}
+//               height={392}
+//               fill="none"
+//               viewBox="0 0 404 392"
+//             >
+//               <defs>
+//                 <pattern
+//                   id="02f20b47-fd69-4224-a62a-4c9de5c763f7"
+//                   x={0}
+//                   y={0}
+//                   width={20}
+//                   height={20}
+//                   patternUnits="userSpaceOnUse"
+//                 >
+//                   <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+//                 </pattern>
+//               </defs>
+//               <rect width={404} height={392} fill="url(#02f20b47-fd69-4224-a62a-4c9de5c763f7)" />
+//             </svg>
+//           </div>
+//           <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
+//             {/* Testimonial card*/}
+//             <div className="relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden">
+//               <img
+//                 className="absolute inset-0 h-full w-full object-cover"
+//                 src="/deloitte.jpg"
+//                 alt=""
+//               />
+//               <div className="absolute inset-0 bg-indigo-400 mix-blend-multiply" />
+//               <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-indigo-900 opacity-90" />
+//               <div className="relative px-8">
+//                 <blockquote className="mt-8">
+//                   <div className="relative text-lg font-medium text-white md:flex-grow">
+//                     <svg
+//                       className="absolute top-0 left-0 transform -translate-x-3 -translate-y-2 h-8 w-8 text-indigo-400"
+//                       fill="currentColor"
+//                       viewBox="0 0 32 32"
+//                       aria-hidden="true"
+//                     >
+//                       <path
+//                         d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+//                     </svg>
+//                     <p className="relative">
+//                       Working with Global Brigades provided a valuable connection between Deloitte and
+//                       the local businesses that we were partnered with. Going into our work with a baseline
+//                       of trust and cultural awareness made our job much easier.
+//                     </p>
+//                   </div>
+//
+//                   <footer className="mt-4">
+//                     <p className="text-base font-semibold text-indigo-200">Kassidy Knight , Deloitte Consulting</p>
+//                   </footer>
+//                 </blockquote>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//
+//         <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
+//           {/* Content area */}
+//           <div className="pt-12 sm:pt-16 lg:pt-20">
+//             <h2 className="text-3xl text-gray-900 font-extrabold tracking-tight sm:text-4xl">
+//               Business & Financial Consulting to Better Lives
+//             </h2>
+//             <div className="mt-6 text-gray-500 space-y-6">
+//               <p className="text-lg">
+//                 GBB proudly partners with Deloitte to increase impact on brigades! Deloitte
+//                 consultants accompany our university volunteers to ensure higher quality
+//                 business guidance for the community members while providing our students
+//                 with valuable career insight.
+//               </p>
+//             </div>
+//           </div>
+//
+//           {/* Stats section */}
+//           <div className="mt-10">
+//             {/*<dl className="grid grid-cols-2 gap-x-4 gap-y-8">*/}
+//             {/*  {stats.map((stat) => (*/}
+//             {/*    <div key={stat.label} className="border-t-2 border-gray-100 pt-6">*/}
+//             {/*      <dt className="text-base font-medium text-gray-500">{stat.label}</dt>*/}
+//             {/*      <dd className="text-3xl font-extrabold tracking-tight text-gray-900">{stat.value}</dd>*/}
+//             {/*    </div>*/}
+//             {/*  ))}*/}
+//             {/*</dl>*/}
+//             <div className="mt-10">
+//               <a href="https://business.globalbrigades.org/" className="text-base font-medium text-blue-900">
+//                 {" "}
+//                 Learn more about how we're changing the world <span aria-hidden="true">&rarr;</span>{" "}
+//               </a>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 
 export default Home;
