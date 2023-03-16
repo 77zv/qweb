@@ -70,10 +70,10 @@ const HeroContent: React.FC = () => {
                   }
                   <div className="mt-3 sm:mt-0 sm:ml-3">
                     <Link
-                      href="/events"
+                      href="/about-us"
                       className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-900 bg-indigo-100 transition duration-100 hover:bg-indigo-200 hover:-translate-y-1 md:py-4 md:text-lg md:px-10"
                     >
-                      Events
+                      About Us
                     </Link>
                   </div>
                 </div>
