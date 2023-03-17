@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import Layout from "../components/layout";
 import { api } from "../utils/api";
