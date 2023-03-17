@@ -27,7 +27,7 @@ export default function Example() {
                     ))}
                 </div>
                 <div className="mt-8 md:order-1 md:mt-0">
-                    <p className="text-center text-base text-gray-400">&copy; 2023 Your Company, Inc. All rights reserved.</p>
+
                 </div>
             </div>
         </footer>
