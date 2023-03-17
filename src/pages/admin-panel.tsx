@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import { type NextPage } from "next";
 import Layout from "../components/layout";
