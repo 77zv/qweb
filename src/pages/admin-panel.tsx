@@ -185,7 +185,7 @@ const AdminPanel: NextPage = () => {
                                             name="submissionsOpen"
                                             id="submissionsOpen"
                                             className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                            value={submissionsOpen ? submissionsOpen.toISOString().slice(0, 16) : ""}
+                                            value={submissionsOpen ?  new Date(submissionsOpen.getTime() - submissionsOpen.getTimezoneOffset() * 60000).toISOString().slice(0, -1)  : ""}
                                             onChange={(event) => setSubmissionsOpen(new Date(event.target.value))}
                                         />
                                     </div>
@@ -202,7 +202,7 @@ const AdminPanel: NextPage = () => {
                                             name="submissionClose"
                                             id="submissionsClose"
                                             className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                            value={submissionsClose ? submissionsClose.toISOString().slice(0, 16) : ""}
+                                            value={submissionsClose ? new Date(submissionsClose.getTime() - submissionsClose.getTimezoneOffset() * 60000).toISOString().slice(0, -1) : ""}
                                             onChange={(event) => setSubmissionsClose(new Date(event.target.value))}
                                         />
                                     </div>
