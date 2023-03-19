@@ -17,7 +17,7 @@ export default function Example() {
                           <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Get in
                               touch</h2>
                           <p className="mt-3 text-lg leading-6 text-gray-500">
-                              Feel free to contact us through these plateforms
+                              Feel free to contact us through these platforms
                               and we will get back to you as soon as possible. Visit us on Social Media
                               to find out more about us
                           </p>
