@@ -1,11 +1,4 @@
-const description = "The Queen's Business Brigade is a dynamic organization comprised of ambitious young" +
-    " professionals and students. With a focus on community outreach and skill-building, the" +
-    " Brigade strives to create meaningful impact in the local business landscape. Members" +
-    " participate in events, workshops, and networking opportunities, gaining valuable" +
-    " experience and making valuable connections. The Brigade also hosts guest speakers and" +
-    " arranges tours of successful businesses to provide members with a unique perspective on" +
-    " the business world. Ultimately, the Queen's Business Brigade prepares its members for" +
-    "  successful careers by fostering a spirit of innovation and collaboration."
+const description = "Here at Queen’s Business Brigades, our diverse team of undergraduate and graduate students collaboratively work to aid and promote Global Brigades . In the past, QBB has helped provide assisted small businesses and community banks in regions of Panama in fields like capital allocation, budgeting, and market research. QBB volunteers have gained invaluable experience in areas such as consulting, marketing, and finance."
 
 const people = [
     {
