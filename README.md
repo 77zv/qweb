@@ -1,28 +1,20 @@
-# Create T3 App
+# Qweb Project README
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Overview
 
-## What's next? How do I make an app with this?
+Qweb is a full-stack website developed for the Business Brigades Charity event, a collaborative initiative between Queens and McMaster University. This platform is designed to streamline event organization, featuring a comprehensive authentication system, file submission capabilities, and integration with AWS S3 for storage.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Technical Stack
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Frontend:** Next.js
+- **Authentication:** NextAuth.js
+- **Backend/API:** tRPC
+- **Database:** Prisma
+- **File Storage:** AWS S3
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Features
 
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- **Role Based Authentication:** Secure login and registration using NextAuth.js, as well as admin and judges panels.
+- **File Submission:** Users can upload files for submission to AWS S3 through the platform.
+- **Real-Time Data Handling:** Backend API with tRPC for efficient data management.
+- **Database Management:** Prisma ORM for handling database operations.
